@@ -54,7 +54,7 @@
       "title": "Graveyard in the Fog (first draft)",
       "description": "The original draft — kept for comparison. Iron fence, crescent moon, chaotic stones.",
       "thumbnail": "assets/thumbs/grav_fog_dense.webp",
-      "splat": "worlds/grav_fog_dense_plus_100k.ply",
+      "splat": "worlds/grav_fog_dense_500k.ply",
       "world_id": "2d0de219-b1fa-4505-af5e-96b6c4fe669d",
       "tier": "draft",
       "date": "2026-09-19",

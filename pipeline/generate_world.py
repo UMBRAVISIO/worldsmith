@@ -56,7 +56,9 @@ def api(method, path, key, payload=None):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--prompt", help="text prompt for the world")
+    ap.add_argument("--prompt", help="text prompt for the world (or guidance text with --image)")
+    ap.add_argument("--image", metavar="PNG", help="path to a seed image (jpg/png) — image-to-world mode; use --pano for panoramas")
+    ap.add_argument("--pano", action="store_true", help="seed image is an equirectangular panorama (sets is_pano=true)")
     ap.add_argument("--name", help="display name (max 64 chars)")
     ap.add_argument("--quality", default="draft", choices=["draft", "standard", "plus"])
     ap.add_argument("--tags", nargs="*", default=["halloween"])
@@ -76,11 +78,26 @@ def main():
     if args.poll_only:
         op_id = args.poll_only
     else:
-        if not args.prompt:
+        if not args.prompt and not args.image:
             sys.exit("--prompt required (or --credits / --poll-only)")
         model = {"draft": "marble-1.0-draft", "standard": "marble-1.1", "plus": "marble-1.1-plus"}[args.quality]
+        if args.image:
+            import base64
+            ext = os.path.splitext(args.image)[1].lstrip(".").lower() or "png"
+            b64 = base64.b64encode(open(args.image, "rb").read()).decode()
+            prompt_block = {
+                "type": "image",
+                "image_prompt": {"source": "data_base64", "data_base64": b64, "extension": ext},
+            }
+            if args.pano:
+                prompt_block["is_pano"] = True
+            if args.prompt:
+                prompt_block["text_prompt"] = args.prompt
+                prompt_block["type"] = "image"
+        else:
+            prompt_block = {"type": "text", "text_prompt": args.prompt}
         payload = {
-            "world_prompt": {"type": "text", "text_prompt": args.prompt},
+            "world_prompt": prompt_block,
             "model": model,
             "tags": args.tags[:10],
             "permission": {"public": args.public},
