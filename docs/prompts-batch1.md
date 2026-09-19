@@ -41,3 +41,17 @@ motion, dark but not pure black.
   at edges, near-field detail (players start here).
 - Winners get marble-1.1-plus regen; keep drafts for comparison.
 - Export PLY at 500k/150k/100k tiers for bandwidth.
+
+## CONFIRMED LESSONS (2026-09-19 batch 1A)
+- **Plus-tier TEXT regen = new world, not an upgrade.** Same prompt re-rolls
+  composition entirely (church vanished, angel scene over-densified). To
+  preserve a draft's composition: image-to-world — feed the draft's
+  pano/image as image_prompt to marble-1.1-plus. API drafts returned
+  pano_url:null; may need pano exported from web app.
+- Warm-vs-cold contrast (candlelight vs cold fog) beats "true midnight" —
+  model resists pure black; blood-orange moon reads great.
+- Say "tilted, chaotic, half-sunk" explicitly or stones come out neat rows.
+- Enclosure words matter: "intimate, no open spaces" — vast open graveyards
+  read as empty (mausoleum draft criticized as "too vast").
+- Emissive focal objects need "clearly defined" geometry or they go muddy.
+- Pumpkins read poorly at draft fidelity (blobby).
