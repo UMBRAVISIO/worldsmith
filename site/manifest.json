@@ -6,15 +6,82 @@
   },
   "worlds": [
     {
-      "id": "EXAMPLE_GRAVEYARD_FOG",
+      "id": "grav_fog_dense",
       "title": "Graveyard in the Fog",
-      "description": "A fog-drowned churchyard. Emissive candlelight on the headstones. Replace this entry with a real world.",
-      "thumbnail": "assets/thumbs/EXAMPLE_GRAVEYARD_FOG.jpg",
-      "splat": "worlds/EXAMPLE_GRAVEYARD_FOG.ply",
-      "tiers": { "high": null, "med": null, "low": null },
+      "description": "A fog-drowned churchyard at midnight. Tilted stones, a lone candle on a stone plinth, mist swallowing everything past ten feet.",
+      "thumbnail": "assets/thumbs/grav_fog_dense_plus.webp",
+      "splat": "worlds/grav_fog_dense_plus_100k.ply",
+      "world_id": "ff70ca7b-49ba-4bf2-8b8a-9f543037f5c0",
+      "tier": "plus",
+      "date": "2026-09-19",
+      "featured": true
+    },
+    {
+      "id": "grav_angel_statue",
+      "title": "The Stone Angel",
+      "description": "A Victorian cemetery under a towering eroded angel. Dozens of votive candles flicker at its base while fog walls close in.",
+      "thumbnail": "assets/thumbs/grav_angel_statue_plus.webp",
+      "splat": null,
+      "world_id": "cc7a1948-0bec-450c-9476-906283d8fb39",
+      "tier": "plus",
+      "date": "2026-09-19",
+      "featured": true
+    },
+    {
+      "id": "grav_mausoleum",
+      "title": "The Open Crypt",
+      "description": "A crumbling mausoleum, doors ajar, candlelight spilling onto the steps. Blood-orange moon over wild grass.",
+      "thumbnail": "assets/thumbs/grav_mausoleum.webp",
+      "splat": null,
+      "world_id": "4ccd2956-f5b1-47eb-99b3-0dc7a363489e",
+      "tier": "draft",
+      "date": "2026-09-19",
+      "featured": false
+    },
+    {
+      "id": "grav_moonlit_hill",
+      "title": "Hillside Cemetery",
+      "description": "A lantern-lit path winds up between leaning graves toward a shrine on the hill. Crescent moon, ruined chapel.",
+      "thumbnail": "assets/thumbs/grav_moonlit_hill.webp",
+      "splat": null,
+      "world_id": "8e69707c-0ff4-4879-807f-30e3671f06b7",
+      "tier": "draft",
+      "date": "2026-09-19",
+      "featured": false
+    },
+    {
+      "id": "grav_fog_dense_draft",
+      "title": "Graveyard in the Fog (first draft)",
+      "description": "The original draft — kept for comparison. Iron fence, crescent moon, chaotic stones.",
+      "thumbnail": "assets/thumbs/grav_fog_dense.webp",
+      "splat": "worlds/grav_fog_dense_plus_100k.ply",
+      "world_id": "2d0de219-b1fa-4505-af5e-96b6c4fe669d",
+      "tier": "draft",
       "date": "2026-09-19",
       "featured": false,
-      "draft": true
+      "note": "splat reuses plus-tier file for viewer testing"
+    },
+    {
+      "id": "grav_angel_statue_draft",
+      "title": "The Stone Angel (first draft)",
+      "description": "The original draft of the angel — votive candles, claustrophobic fog.",
+      "thumbnail": "assets/thumbs/grav_angel_statue.webp",
+      "splat": null,
+      "world_id": "630086e3-d157-4d8a-a813-aa91d52e8d12",
+      "tier": "draft",
+      "date": "2026-09-19",
+      "featured": false
+    },
+    {
+      "id": "grav_autumn_dusk",
+      "title": "Autumn Graveyard at Dusk",
+      "description": "Jack-o'-lantern on a fresh grave, pumpkins at the gate, first stars over the forest edge.",
+      "thumbnail": "assets/thumbs/grav_autumn_dusk.webp",
+      "splat": null,
+      "world_id": "a056fede-860c-43aa-a5f0-8a38ca22a42e",
+      "tier": "draft",
+      "date": "2026-09-19",
+      "featured": false
     }
   ]
 }

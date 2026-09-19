@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WORLDSMITH — Explorable Halloween Worlds</title>
+<meta name="description" content="Walk through AI-generated Halloween worlds — graveyards, fog, and candlelight. Gaussian splats, explorable in your browser.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0908;
+  --bg-card: #14110e;
+  --bg-card-hover: #1c1712;
+  --border: #2a231a;
+  --text: #d8cfc0;
+  --text-dim: #8a7f6e;
+  --accent: #e8862e;        /* candle orange */
+  --accent-dim: #a05a1c;
+  --fog: #3a352c;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+}
+/* fog gradient at top */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; height: 40vh;
+  background: radial-gradient(ellipse at 50% -20%, #241f17 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 4.5rem 1rem 3rem;
+}
+header h1 {
+  font-family: 'IM Fell English', serif;
+  font-size: clamp(2.6rem, 7vw, 4.5rem);
+  letter-spacing: 0.12em;
+  color: var(--text);
+  text-shadow: 0 0 30px rgba(232, 134, 46, 0.25);
+}
+header h1 .flame { color: var(--accent); }
+header .tagline {
+  margin-top: 0.8rem;
+  color: var(--text-dim);
+  font-style: italic;
+  font-family: 'IM Fell English', serif;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+}
+hr.sep {
+  border: none;
+  height: 1px;
+  max-width: 420px;
+  margin: 2.2rem auto 0;
+  background: linear-gradient(90deg, transparent, var(--fog), transparent);
+}
+main {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem 4rem;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.6rem;
+}
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--accent-dim);
+  box-shadow: 0 8px 40px rgba(232, 134, 46, 0.08);
+}
+.card .thumb {
+  aspect-ratio: 3/2;
+  background: #000 center/cover no-repeat;
+  position: relative;
+}
+.card .thumb::after {
+  /* vignette */
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(10,9,8,0.85) 100%);
+}
+.card .badge {
+  position: absolute;
+  top: 0.7rem; right: 0.7rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.55rem;
+  border-radius: 4px;
+  background: rgba(10,9,8,0.72);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  z-index: 2;
+}
+.card .badge.plus { color: var(--accent); border-color: var(--accent-dim); }
+.card .body { padding: 1.1rem 1.2rem 1.3rem; }
+.card h2 {
+  font-family: 'IM Fell English', serif;
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: var(--text);
+  margin-bottom: 0.45rem;
+}
+.card p {
+  font-size: 0.86rem;
+  line-height: 1.5;
+  color: var(--text-dim);
+}
+.card .enter {
+  margin-top: 0.9rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  opacity: 0.75;
+  transition: opacity 0.2s;
+}
+.card:hover .enter { opacity: 1; }
+.card.locked { opacity: 0.55; }
+.card.locked:hover { transform: none; border-color: var(--border); box-shadow: none; }
+.card .badge.comingsoon { color: var(--text-dim); }
+footer {
+  text-align: center;
+  padding: 2.5rem 1rem 3rem;
+  color: var(--text-dim);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+}
+footer .sep-mid { margin: 0 0.6em; opacity: 0.4; }
+@media (max-width: 640px) {
+  header { padding: 3rem 1rem 2rem; }
+  .grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>WORLD<span class="flame">SMITH</span></h1>
+  <div class="tagline" id="tagline"></div>
+  <hr class="sep">
+</header>
+<main>
+  <div class="grid" id="grid"></div>
+</main>
+<footer>
+  worlds rendered as gaussian splats &middot; <span class="sep-mid">&middot;</span> walk with mouse or VR headset
+</footer>
+<script>
+fetch('./manifest.json')
+  .then(r => r.json())
+  .then(manifest => {
+    document.getElementById('tagline').textContent = manifest.site.tagline;
+    const grid = document.getElementById('grid');
+    // featured first, then by date desc
+    const worlds = [...manifest.worlds].sort((a, b) =>
+      (b.featured - a.featured) || (b.date < a.date ? -1 : 1));
+    for (const w of worlds) {
+      const a = document.createElement('a');
+      a.className = 'card' + (w.splat ? '' : ' locked');
+      if (w.splat) a.href = `world.html?id=${encodeURIComponent(w.id)}`;
+      a.innerHTML = `
+        <div class="thumb" style="background-image:url('${w.thumbnail}')">
+          <span class="badge ${w.tier === 'plus' ? 'plus' : ''}">${w.tier === 'plus' ? 'Full quality' : 'Preview'}</span>
+        </div>
+        <div class="body">
+          <h2>${w.title}</h2>
+          <p>${w.description}</p>
+          <div class="enter">${w.splat ? 'Enter the world →' : 'Coming soon'}</div>
+        </div>`;
+      grid.appendChild(a);
+    }
+  });
+</script>
+</body>
+</html>
