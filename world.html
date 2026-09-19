@@ -66,9 +66,9 @@ fetch('./manifest.json').then(r => r.json()).then(manifest => {
   document.getElementById('world-title').textContent = w.title;
   const tier = document.getElementById('tier');
   if (w.tier === 'plus') document.querySelector('.tier').style.display = 'inline';
-  // self-hosted SuperSplat viewer, content injected via URL params
+  // per-world camera poses (generated files, from measured splat geometry)
   const viewer = document.getElementById('viewer-frame');
-  viewer.src = `viewer/index.html?content=../${w.splat}&poster=../${w.thumbnail}&settings=../viewer/settings.json`;
+  viewer.src = `viewer/index.html?content=../${w.splat}&poster=../${w.thumbnail}&settings=../viewer/settings-${w.id}.json`;
 });
 </script>
 </body>
