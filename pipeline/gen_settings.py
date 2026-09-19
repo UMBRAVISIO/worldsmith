@@ -31,17 +31,19 @@ BASE = {
     "startMode": "default",
 }
 
-# hand-tuned poses (measured geometry: focal point near origin, ground ~y=0.65)
+# hand-tuned poses. CRITICAL: camera must sit INSIDE the splat data bounds
+# (fog: x[-11.6,9] z[-11.6,3.7]; angel: x[-31.7,13.9] z[-23.5,13.9]) or the
+# frame includes void beyond the world's edge.
 POSES = {
     "grav_fog_dense": [
-        {"initial": {"position": [2.0, 1.8, 6.5], "target": [0.0, 0.8, 0.2], "fov": 65}},
-        {"initial": {"position": [7.0, 2.2, 3.0], "target": [0.0, 0.7, 0.2], "fov": 65}},
-        {"initial": {"position": [1.0, 1.8, -6.0], "target": [0.0, 0.8, 0.2], "fov": 65}},
+        {"initial": {"position": [2.5, 1.7, 2.8], "target": [0.0, 0.7, 0.2], "fov": 60}},
+        {"initial": {"position": [4.5, 1.8, 2.0], "target": [0.0, 0.7, 0.2], "fov": 62}},
+        {"initial": {"position": [1.5, 1.6, 3.0], "target": [-0.5, 0.8, -1.5], "fov": 62}},
     ],
     "grav_angel_statue": [
-        {"initial": {"position": [0.0, 1.6, 7.0], "target": [0.0, 1.4, 0.3], "fov": 60}},
-        {"initial": {"position": [5.0, 2.0, 5.0], "target": [0.0, 1.2, 0.3], "fov": 60}},
-        {"initial": {"position": [-5.0, 2.0, -5.0], "target": [0.0, 1.2, 0.3], "fov": 60}},
+        {"initial": {"position": [0.0, 1.8, 9.0], "target": [0.0, 1.5, 0.5], "fov": 60}},
+        {"initial": {"position": [6.0, 2.2, 7.0], "target": [0.0, 1.3, 0.4], "fov": 58}},
+        {"initial": {"position": [-4.0, 2.0, -7.0], "target": [0.0, 1.4, 0.4], "fov": 60}},
     ],
 }
 
