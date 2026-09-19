@@ -1,9 +1,9 @@
-# Large binary assets — splats are tens of MB each
-worlds/*.ply
-worlds/**/*.ply
-site/worlds/*.ply
-
-# Keep sample splats explicitly (override): !worlds/sample.ply
+# Large binary assets — full-res splats stay out of git (100-200MB)
+# 100k/500k demo tiers ARE committed (needed for Pages deploys)
+worlds/*_full.ply
+worlds/*.spz
+site/worlds/*_full.ply
+site/worlds/*.spz
 
 # Pipeline state / secrets (never commit)
 .env
