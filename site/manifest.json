@@ -1,0 +1,20 @@
+{
+  "site": {
+    "title": "WORLDSMITH",
+    "tagline": "Explorable Halloween worlds — rendered as light, walked as splats",
+    "vr_enabled": true
+  },
+  "worlds": [
+    {
+      "id": "EXAMPLE_GRAVEYARD_FOG",
+      "title": "Graveyard in the Fog",
+      "description": "A fog-drowned churchyard. Emissive candlelight on the headstones. Replace this entry with a real world.",
+      "thumbnail": "assets/thumbs/EXAMPLE_GRAVEYARD_FOG.jpg",
+      "splat": "worlds/EXAMPLE_GRAVEYARD_FOG.ply",
+      "tiers": { "high": null, "med": null, "low": null },
+      "date": "2026-09-19",
+      "featured": false,
+      "draft": true
+    }
+  ]
+}
