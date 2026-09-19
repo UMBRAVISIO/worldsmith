@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
-"""WORLDSMITH — Marble API pipeline (smoke test mode).
+"""WORLDSMITH — Marble API pipeline.
 
-Generates one draft world via World Labs Marble API and polls until done.
+Generates a world via World Labs Marble API and polls until done.
 Requires WLT_API_KEY in ~/.hermes/.env (or environment).
 
 Usage:
-  python3 pipeline/generate_world.py --prompt "..." [--quality draft] [--dry-run]
+  python3 pipeline/generate_world.py --prompt "..." [--quality draft] [--name "Title"]
+  python3 pipeline/generate_world.py --credits          # check balance, no spend
+  python3 pipeline/generate_world.py --poll-only OP_ID  # resume polling an operation
 
-API: api.worldlabs.ai/marble/v1 — flow: worlds:generate -> poll operations -> world -> export
-Docs index: docs.worldlabs.ai/llms.txt  (OpenAPI spec available)
+API: https://api.worldlabs.ai/marble/v1
+  POST /worlds:generate  {world_prompt: {type: text, text_prompt: "..."}, model, display_name, tags, permission}
+  GET  /operations/{id}  -> {done, response, error, cost}
+  GET  /credits          -> balance
+Docs: docs.worldlabs.ai/llms.txt
 """
 import argparse
 import json
@@ -19,7 +24,7 @@ import urllib.request
 import urllib.error
 
 API_BASE = "https://api.worldlabs.ai/marble/v1"
-STATE_DIR = os.path.join(os.path.dirname(__file__), ".state")
+STATE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".state")
 
 
 def load_key():
@@ -51,36 +56,60 @@ def api(method, path, key, payload=None):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--prompt", required=True)
+    ap.add_argument("--prompt", help="text prompt for the world")
+    ap.add_argument("--name", help="display name (max 64 chars)")
     ap.add_argument("--quality", default="draft", choices=["draft", "standard", "plus"])
-    ap.add_argument("--model", default="marble-1.0-draft")
-    ap.add_argument("--dry-run", action="store_true", help="Print request payload only, no API call")
+    ap.add_argument("--tags", nargs="*", default=["halloween"])
+    ap.add_argument("--public", action="store_true", help="make world public")
+    ap.add_argument("--credits", action="store_true", help="check credit balance only, no spend")
+    ap.add_argument("--poll-only", metavar="OP_ID", help="poll an existing operation instead of generating")
     args = ap.parse_args()
-
-    payload = {"prompt": args.prompt, "quality": args.quality, "model": args.model}
-    print(json.dumps(payload, indent=2))
-
-    if args.dry_run:
-        print("DRY RUN — no API call made.")
-        return
 
     key = load_key()
     os.makedirs(STATE_DIR, exist_ok=True)
     ts = time.strftime("%y%m%d-%H%M%S")
-    op = api("POST", "/worlds:generate", key, payload)
-    op_id = op.get("name") or op.get("id")
-    print(f"Operation started: {op_id}")
-    json.dump(op, open(f"{STATE_DIR}/op-{ts}.json", "w"), indent=2)
+
+    if args.credits:
+        print(json.dumps(api("GET", "/credits", key), indent=2))
+        return
+
+    if args.poll_only:
+        op_id = args.poll_only
+    else:
+        if not args.prompt:
+            sys.exit("--prompt required (or --credits / --poll-only)")
+        model = {"draft": "marble-1.0-draft", "standard": "marble-1.1", "plus": "marble-1.1-plus"}[args.quality]
+        payload = {
+            "world_prompt": {"type": "text", "text_prompt": args.prompt},
+            "model": model,
+            "tags": args.tags[:10],
+            "permission": {"public": args.public},
+        }
+        if args.name:
+            payload["display_name"] = args.name[:64]
+        op = api("POST", "/worlds:generate", key, payload)
+        op_id = op["operation_id"]
+        print(f"Operation started: {op_id}")
+        json.dump(op, open(f"{STATE_DIR}/op-{ts}.json", "w"), indent=2)
 
     while True:
-        status = api("GET", f"/{op_id}", key)
-        done = status.get("done") or status.get("state") == "SUCCEEDED"
-        print(f"  poll: {json.dumps(status)[:120]}")
+        status = api("GET", f"/operations/{op_id}", key)
+        done = status.get("done")
+        meta = status.get("metadata") or {}
+        pct = meta.get("progress") or meta.get("progress_percentage") or ""
+        print(f"  poll {time.strftime('%H:%M:%S')}: done={done} {pct}")
         if done:
             break
         time.sleep(20)
+
     json.dump(status, open(f"{STATE_DIR}/result-{ts}.json", "w"), indent=2)
+    if status.get("error"):
+        sys.exit(f"GENERATION FAILED: {json.dumps(status['error'])[:300]}")
+    cost = status.get("cost")
+    if cost:
+        print(f"Cost: {json.dumps(cost)}")
     print(f"COMPLETE — result saved to {STATE_DIR}/result-{ts}.json")
+    print(json.dumps(status.get("response"), indent=2)[:2000])
 
 
 if __name__ == "__main__":
