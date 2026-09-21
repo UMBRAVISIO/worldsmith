@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>WORLDSMITH — Explorable Halloween Worlds</title>
-<meta name="description" content="Walk through AI-generated Halloween worlds — graveyards, fog, and candlelight. Gaussian splats, explorable in your browser.">
+<meta name="description" content="Step inside AI-generated Halloween worlds — graveyards, fog, and candlelight rendered as explorable 360° panoramas.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 <style>
@@ -143,6 +143,10 @@ main {
 .card.locked { opacity: 0.55; }
 .card.locked:hover { transform: none; border-color: var(--border); box-shadow: none; }
 .card .badge.comingsoon { color: var(--text-dim); }
+.card .badge.pano {
+  top: auto; bottom: 0.7rem; right: 0.7rem;
+  color: var(--text);
+}
 footer {
   text-align: center;
   padding: 2.5rem 1rem 3rem;
@@ -167,7 +171,7 @@ footer .sep-mid { margin: 0 0.6em; opacity: 0.4; }
   <div class="grid" id="grid"></div>
 </main>
 <footer>
-  worlds rendered as gaussian splats &middot; <span class="sep-mid">&middot;</span> walk with mouse or VR headset
+  worlds entered as 360&#176; panoramas &middot; <span class="sep-mid">&middot;</span> look around with mouse or touch
 </footer>
 <script>
 fetch('./manifest.json')
@@ -180,16 +184,17 @@ fetch('./manifest.json')
       (b.featured - a.featured) || (b.date < a.date ? -1 : 1));
     for (const w of worlds) {
       const a = document.createElement('a');
-      a.className = 'card' + (w.splat ? '' : ' locked');
-      if (w.splat) a.href = `world.html?id=${encodeURIComponent(w.id)}`;
+      a.className = 'card' + (w.pano ? '' : ' locked');
+      if (w.pano) a.href = `world.html?id=${encodeURIComponent(w.id)}`;
       a.innerHTML = `
         <div class="thumb" style="background-image:url('${w.thumbnail}')">
           <span class="badge ${w.tier === 'plus' ? 'plus' : ''}">${w.tier === 'plus' ? 'Full quality' : 'Preview'}</span>
+          <span class="badge pano">360&#176; view</span>
         </div>
         <div class="body">
           <h2>${w.title}</h2>
           <p>${w.description}</p>
-          <div class="enter">${w.splat ? 'Enter the world →' : 'Coming soon'}</div>
+          <div class="enter">${w.pano ? 'Enter the world →' : 'Coming soon'}</div>
         </div>`;
       grid.appendChild(a);
     }
