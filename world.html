@@ -169,7 +169,8 @@ body { font-family: 'Inter', sans-serif; }
 
 <audio id="ambience" loop preload="none" src="pano/ambience-placeholder.wav"></audio>
 
-<script src="pano/viewer.js?v=5"></script>
+<script src="pano/viewer.js?v=6"></script>
+  <script src="pano/viewer2d.js?v=1"></script>
 <script>
 (function () {
   var params = new URLSearchParams(location.search);
@@ -190,7 +191,7 @@ body { font-family: 'Inter', sans-serif; }
 
       var panoSrc = w.pano;
       if (!panoSrc) throw new Error('This world has no panorama yet.');
-      var view = PanoViewer.mount(document.getElementById('pano-mount'), {
+      var opts = {
         src: panoSrc,
         startFov: 78,
         autoRotate: false,
@@ -198,13 +199,33 @@ body { font-family: 'Inter', sans-serif; }
           document.getElementById('error-box').style.display = 'flex';
           document.getElementById('loader').classList.add('gone');
         }
-      });
+      };
+      /* WebGL first; on machines with flaky software GL (frames drawn but never
+       * presented) fall back to the 2D canvas viewer, which always composites. */
+      var view;
+      var softwareGL = false;
+      try {
+        var probeGL = document.createElement('canvas').getContext('webgl');
+        var dbg = probeGL && probeGL.getExtension('WEBGL_debug_renderer_info');
+        var renderer = dbg ? probeGL.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : '';
+        softwareGL = /swiftshader|softpipe|llvmpipe/i.test(renderer);
+        if (probeGL && probeGL.getExtension('WEBGL_lose_context')) probeGL.getExtension('WEBGL_lose_context').loseContext();
+      } catch (e) { /* probe failures fall through to WebGL path */ }
+      if (softwareGL) {
+        view = new Viewer2D(document.getElementById('pano-mount'), opts);
+      } else {
+        try {
+          view = PanoViewer.mount(document.getElementById('pano-mount'), opts);
+        } catch (e) {
+          view = new Viewer2D(document.getElementById('pano-mount'), opts);
+        }
+      }
       view.onLoad = function () {
         document.getElementById('loader').classList.add('gone');
         setTimeout(function () { document.getElementById('hint').classList.add('faded'); }, 4500);
       };
 
-      /* --- controls --- */
+            /* --- controls --- */
       var btnRotate = document.getElementById('btn-rotate');
       btnRotate.addEventListener('click', function () {
         var on = !view.autoRotate;
