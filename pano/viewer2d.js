@@ -26,6 +26,7 @@
     this.rotateSpeed = opts.rotateSpeed != null ? opts.rotateSpeed : 6; // deg/s
     this.onUserMove = opts.onUserMove || null;
     this.onDestroy = opts.onDestroy || null;
+    this.onError = opts.onError || null;
     this._img = null;
     this._texOk = false;
     this._raf = null;
@@ -228,7 +229,8 @@
   };
 
   Viewer2D.prototype.destroy = function () {
-    if (this._raf) cancelAnimationFrame(this._raf);
+    // the loop reschedules via setTimeout after the first rAF — clear both
+    if (this._raf) { clearTimeout(this._raf); cancelAnimationFrame(this._raf); }
     window.removeEventListener('resize', this._onResize);
     if (this.canvas && this.canvas.parentNode) this.canvas.parentNode.removeChild(this.canvas);
     if (this.onDestroy) this.onDestroy();

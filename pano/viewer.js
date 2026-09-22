@@ -84,6 +84,7 @@
     this.rotateSpeed = opts.rotateSpeed != null ? opts.rotateSpeed : 12; // deg/SECOND (time-based, FPS-independent)
     this.renderScale = opts.renderScale != null ? opts.renderScale : 0.5; // internal res multiplier
     this.onDestroy = opts.onDestroy || null;
+    this.onError = opts.onError || null;
     this._raf = null;
     this._texOk = false;
     this._dirty = true;   // draw-on-demand: only redraw when state changed
@@ -312,6 +313,36 @@
       if (self.onError) self.onError(new Error('Failed to load panorama: ' + src));
     };
     img.src = src;
+  };
+
+  // Behavioural sanity check (used by world.html before trusting WebGL):
+  // draw at two azimuths 90° apart and read back a row of pixels. Passes only
+  // if the draw produced non-black output AND the view actually moved. Must
+  // be called after the texture has loaded.
+  PanoViewer.prototype.selfTest = function () {
+    var gl = this.gl;
+    if (!gl || !this._texOk || gl.isContextLost()) return false;
+    var w = this.canvas.width, h = this.canvas.height, y = Math.floor(h / 2);
+    var lon0 = this.lon;
+    function row(self, lon) {
+      self.lon = lon;
+      self._draw();
+      var px = new Uint8Array(w * 4);
+      gl.readPixels(0, y, w, 1, gl.RGBA, gl.UNSIGNED_BYTE, px);
+      return px;
+    }
+    try {
+      var a = row(this, lon0), b = row(this, lon0 + 90);
+    } catch (e) { this.lon = lon0; return false; }
+    this.lon = lon0;
+    this._draw();
+    if (gl.getError() !== gl.NO_ERROR) return false;
+    var diff = 0, lit = 0;
+    for (var i = 0; i < a.length; i += 4) {
+      diff += Math.abs(a[i] - b[i]) + Math.abs(a[i + 1] - b[i + 1]) + Math.abs(a[i + 2] - b[i + 2]);
+      lit += a[i] + a[i + 1] + a[i + 2];
+    }
+    return lit > w * 6 && diff > w * 3; // avg >2/channel lit, >1/channel moved
   };
 
   PanoViewer.prototype.lookAt = function (lon, lat, fov) {

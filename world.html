@@ -169,8 +169,8 @@ body { font-family: 'Inter', sans-serif; }
 
 <audio id="ambience" loop preload="none" src="pano/ambience-placeholder.wav"></audio>
 
-<script src="pano/viewer.js?v=7"></script>
-  <script src="pano/viewer2d.js?v=1"></script>
+<script src="pano/viewer.js?v=8"></script>
+  <script src="pano/viewer2d.js?v=2"></script>
 <script>
 (function () {
   var params = new URLSearchParams(location.search);
@@ -200,30 +200,64 @@ body { font-family: 'Inter', sans-serif; }
           document.getElementById('loader').classList.add('gone');
         }
       };
-      /* WebGL first; on machines with flaky software GL (frames drawn but never
-       * presented) fall back to the 2D canvas viewer, which always composites. */
-      var view;
-      var softwareGL = false;
+      /* Viewer selection.
+       * WebGL is used only when ALL of these hold:
+       *  1. the unmasked renderer string names a recognisable hardware GPU
+       *     (Brave's fingerprint protection farbles it to e.g. "Brave", so an
+       *     unknown/generic string is treated as untrusted -> 2D viewer);
+       *  2. it is not a software rasteriser (SwiftShader/llvmpipe/softpipe);
+       *  3. after the pano loads, a behavioural self-test (draw two azimuths,
+       *     read pixels back) shows real, moving output.
+       * Anything else gets Viewer2D, which always composites.
+       * Override for testing: ?viewer=gl or ?viewer=2d. */
+      var mountEl = document.getElementById('pano-mount');
+      var forced = params.get('viewer');
+      var renderer = '';
       try {
         var probeGL = document.createElement('canvas').getContext('webgl');
         var dbg = probeGL && probeGL.getExtension('WEBGL_debug_renderer_info');
-        var renderer = dbg ? probeGL.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : '';
-        softwareGL = /swiftshader|softpipe|llvmpipe/i.test(renderer);
-        if (probeGL && probeGL.getExtension('WEBGL_lose_context')) probeGL.getExtension('WEBGL_lose_context').loseContext();
-      } catch (e) { /* probe failures fall through to WebGL path */ }
-      if (softwareGL) {
-        view = new Viewer2D(document.getElementById('pano-mount'), opts);
-      } else {
-        try {
-          view = PanoViewer.mount(document.getElementById('pano-mount'), opts);
-        } catch (e) {
-          view = new Viewer2D(document.getElementById('pano-mount'), opts);
-        }
-      }
-      view.onLoad = function () {
+        renderer = probeGL ? String(dbg ? probeGL.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : '') : '';
+        var lose = probeGL && probeGL.getExtension('WEBGL_lose_context');
+        if (lose) lose.loseContext();
+      } catch (e) { renderer = ''; }
+      var softwareGL = /swiftshader|softpipe|llvmpipe|software|microsoft basic render/i.test(renderer);
+      var knownGPU = /(nvidia|geforce|quadro|radeon|amd|\bati\b|intel|iris|\buhd\b|\bhd graphics|mesa|apple|\bm[1-9]\b|adreno|mali|powervr|videocore|tegra|immortalis|xclipse)/i.test(renderer);
+      var useGL = forced === 'gl' || (forced !== '2d' && knownGPU && !softwareGL);
+      window.__viewerPick = { renderer: renderer, softwareGL: softwareGL, knownGPU: knownGPU, useGL: useGL, kind: null, selfTest: null };
+
+      var onLoaded = function () {
         document.getElementById('loader').classList.add('gone');
         setTimeout(function () { document.getElementById('hint').classList.add('faded'); }, 4500);
       };
+      var mount2D = function (o) {
+        var v = new Viewer2D(mountEl, o || opts);
+        v.onLoad = onLoaded;
+        window.__viewerPick.kind = 'Viewer2D';
+        return v;
+      };
+      var view;
+      if (useGL) {
+        try {
+          view = PanoViewer.mount(mountEl, opts);
+          window.__viewerPick.kind = 'PanoViewer';
+          view.onLoad = function () {
+            var ok = view.selfTest();
+            window.__viewerPick.selfTest = ok;
+            if (!ok && forced !== 'gl') {
+              // WebGL drew nothing or didn't move: swap to the 2D viewer, keeping the pose.
+              var o = Object.assign({}, opts, { startLon: view.lon, startLat: view.lat });
+              view.destroy();
+              view = mount2D(o);
+              return;
+            }
+            onLoaded();
+          };
+        } catch (e) {
+          view = mount2D();
+        }
+      } else {
+        view = mount2D();
+      }
 
             /* --- controls --- */
       var btnRotate = document.getElementById('btn-rotate');
