@@ -1,6 +1,6 @@
 /* WORLDSMITH pano viewer — self-hosted 360° equirectangular panorama viewer.
  * Vanilla WebGL 1.0, zero dependencies, no build step.
- * Renders the pano onto the inside of a sphere; drag/touch to look, wheel/pinch to zoom (FOV).
+ * Ray-casts the equirect pano per pixel (full-screen triangle); drag/touch to look, wheel/pinch to zoom (FOV).
  * API: PanoViewer.mount(container, { src, autoRotate, startLat, startLon, startFov, onError })
  *      -> controller { destroy(), lookAt(lon, lat, fov), setAutoRotate(bool), getFov() }
  */
@@ -9,36 +9,44 @@
 
   var DEG = Math.PI / 180;
 
+  // Full-screen triangle; the fragment shader ray-casts each pixel from the
+  // camera basis (lon/lat/fov) straight into equirect UVs.
+  //
+  // Why not a textured sphere: the previous build rotated the sphere (uRot)
+  // and then derived the texture lookup from the ROTATED position — the
+  // rotation cancelled out, so lon never changed the image (lon 180 and 270
+  // rendered byte-identical frames). Ray-casting has no such trap, no
+  // tessellation error, and matches Viewer2D's convention exactly:
+  //   f = [cos(lon)cos(lat), sin(lat), sin(lon)cos(lat)]
+  //   screen-center u = 0.5 + lon/360, v = 0.5 - lat/180.
   var VERT = [
-    'attribute vec3 aPos;',
-    'uniform mat4 uProj;',
-    'uniform mat4 uView;',
-    'uniform mat4 uRot; // yaw/pitch spin of the sphere itself (reversed look)',
-    'varying vec3 vDir;',
+    'attribute vec2 aPos;',
+    'varying vec2 vNdc;',
     'void main() {',
-    '  vec4 world = uRot * vec4(aPos, 1.0);',
-    '  gl_Position = uProj * uView * world;',
-    '  vDir = normalize(world.xyz);',
+    '  vNdc = aPos;',
+    '  gl_Position = vec4(aPos, 0.0, 1.0);',
     '}'
   ].join('\n');
 
-  // Equirectangular mapping with the sphere seam behind the camera at spawn
-  // (we pre-rotate uRot so the captured horizon faces the initial view).
   var FRAG = [
+    '#ifdef GL_FRAGMENT_PRECISION_HIGH',
+    'precision highp float;',
+    '#else',
     'precision mediump float;',
-    'varying vec3 vDir;',
+    '#endif',
+    'varying vec2 vNdc;',
     'uniform sampler2D uTex;',
+    'uniform vec3 uF;',   // camera forward
+    'uniform vec3 uR;',   // camera right
+    'uniform vec3 uU;',   // camera up
+    'uniform vec2 uTan;', // tan(hfov/2), tan(vfov/2)
     'void main() {',
-    '  vec3 d = normalize(vDir);',
+    '  vec3 d = normalize(uF + vNdc.x * uTan.x * uR + vNdc.y * uTan.y * uU);',
     '  float lon = atan(d.z, d.x);',       // -PI..PI
     '  float lat = asin(clamp(d.y, -1.0, 1.0));',
-    '  float u = lon / (2.0 * 3.14159265) + 0.5;',
+    '  float u = lon / 6.28318531 + 0.5;',
     '  float v = 0.5 - lat / 3.14159265;',
-    // cross-fade across the wrap seam to hide the bilinear join line
-    '  float w = min(smoothstep(0.0, 0.004, u), 1.0 - smoothstep(0.996, 1.0, u));',
-    '  vec3 a = texture2D(uTex, vec2(u, v)).rgb;',
-    '  vec3 b = texture2D(uTex, vec2(fract(u + 1.0), v)).rgb;',
-    '  gl_FragColor = vec4(mix(b, a, w), 1.0);',
+    '  gl_FragColor = vec4(texture2D(uTex, vec2(u, v)).rgb, 1.0);',
     '}'
   ].join('\n');
 
@@ -52,55 +60,15 @@
     return s;
   }
 
-  function mat4Mul(a, b) {
-    var out = new Float32Array(16);
-    for (var c = 0; c < 4; c++)
-      for (var r = 0; r < 4; r++) {
-        var s = 0;
-        for (var k = 0; k < 4; k++) s += a[k * 4 + r] * b[c * 4 + k];
-        out[c * 4 + r] = s;
-      }
-    return out;
-  }
-
-  function perspective(fovyDeg, aspect, near, far) {
-    var f = 1 / Math.tan(fovyDeg * DEG / 2);
-    var nf = 1 / (near - far);
-    return new Float32Array([
-      f / aspect, 0, 0, 0,
-      0, f, 0, 0,
-      0, 0, (far + near) * nf, -1,
-      0, 0, 2 * far * near * nf, 0
-    ]);
-  }
-
-  // Camera at origin, looking along -Z, with roll/pitch applied as a view rotation.
-  function viewMatrix(pitchDeg, rollDeg) {
-    var p = pitchDeg * DEG, r = rollDeg * DEG;
-    var cp = Math.cos(p), sp = Math.sin(p), cr = Math.cos(r), sr = Math.sin(r);
-    // rotate world by pitch then roll (inverse of camera rotation)
-    return new Float32Array([
-      cr, 0, -sr, 0,
-      sp * sr, cp, sp * cr, 0,
-      cp * sr, -sp, cp * cr, 0,
-      0, 0, 0, 1
-    ]);
-  }
-
-  // Rotation of the sphere: inverse of the camera's yaw/pitch look direction.
-  // lon = azimuth (deg, 0 = -Z), lat = elevation (deg).
-  function sphereRot(lonDeg, latDeg) {
-    var y = -lonDeg * DEG;   // yaw about Y
-    var x = latDeg * DEG;    // pitch about X (applied after yaw)
-    var cy = Math.cos(y), sy = Math.sin(y);
-    var cx = Math.cos(x), sx = Math.sin(x);
-    // R = Ry(y) * Rx(x)
-    return new Float32Array([
-      cy, sx * sy, -cx * sy, 0,
-      0, cx, sx, 0,
-      sy, -sx * cy, cx * cy, 0,
-      0, 0, 0, 1
-    ]);
+  // Camera basis for azimuth lon / elevation lat (degrees).
+  function cameraBasis(lonDeg, latDeg) {
+    var l = lonDeg * DEG, p = latDeg * DEG;
+    var cl = Math.cos(l), sl = Math.sin(l), cp = Math.cos(p), sp = Math.sin(p);
+    return {
+      f: [cl * cp, sp, sl * cp],
+      r: [-sl, 0, cl],
+      u: [-cl * sp, cp, -sl * sp]   // cross(r, f)
+    };
   }
 
   function PanoViewer(container, opts) {
@@ -149,40 +117,22 @@
     gl.useProgram(prog);
     this.prog = prog;
 
-    // sphere: 48x32 segments, radius 50, camera at center
-    var seg = [48, 32], R = 50;
-    var verts = [], idx = [];
-    for (var y = 0; y <= seg[1]; y++) {
-      var v = y / seg[1], phi = v * Math.PI;
-      for (var x = 0; x <= seg[0]; x++) {
-        var u = x / seg[0], theta = u * 2 * Math.PI;
-        verts.push(-R * Math.sin(phi) * Math.cos(theta),
-                    R * Math.cos(phi),
-                    R * Math.sin(phi) * Math.sin(theta));
-      }
-    }
-    for (y = 0; y < seg[1]; y++)
-      for (x = 0; x < seg[0]; x++) {
-        var a = y * (seg[0] + 1) + x, b = a + seg[0] + 1;
-        idx.push(a, b, a + 1, b, b + 1, a + 1);
-      }
-    this._nIdx = idx.length;
+    // one oversized triangle covering the viewport
     var vbo = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(verts), gl.STATIC_DRAW);
-    var ibo = gl.createBuffer();
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(idx), gl.STATIC_DRAW);
-
-    var loc = gl.getAttribLocation(prog, 'aPos');
-    gl.enableVertexAttribArray(loc);
-    gl.vertexAttribPointer(loc, 3, gl.FLOAT, false, 0, 0);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+    this.vbo = vbo;
+    this.aPos = gl.getAttribLocation(prog, 'aPos');
+    gl.enableVertexAttribArray(this.aPos);
+    gl.vertexAttribPointer(this.aPos, 2, gl.FLOAT, false, 0, 0);
     this.loc = {
-      proj: gl.getUniformLocation(prog, 'uProj'),
-      view: gl.getUniformLocation(prog, 'uView'),
-      rot: gl.getUniformLocation(prog, 'uRot')
+      f: gl.getUniformLocation(prog, 'uF'),
+      r: gl.getUniformLocation(prog, 'uR'),
+      u: gl.getUniformLocation(prog, 'uU'),
+      tan: gl.getUniformLocation(prog, 'uTan'),
+      tex: gl.getUniformLocation(prog, 'uTex')
     };
-    gl.uniform1i(gl.getUniformLocation(prog, 'uTex'), 0);
+    gl.uniform1i(this.loc.tex, 0);
 
     this.tex = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, this.tex);
@@ -321,11 +271,22 @@
     gl.clear(gl.COLOR_BUFFER_BIT);
     if (!this._texOk) return;
 
+    // Re-assert all state every draw (cheap; guards against any context state
+    // drift) and feed the CURRENT lon/lat/fov into the shader.
+    gl.useProgram(this.prog);
+    gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo);
+    gl.enableVertexAttribArray(this.aPos);
+    gl.vertexAttribPointer(this.aPos, 2, gl.FLOAT, false, 0, 0);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, this.tex);
     var aspect = this.canvas.width / Math.max(1, this.canvas.height);
-    gl.uniformMatrix4fv(this.loc.proj, false, perspective(this.fov, aspect, 0.1, 100));
-    gl.uniformMatrix4fv(this.loc.view, false, viewMatrix(0, 0));
-    gl.uniformMatrix4fv(this.loc.rot, false, sphereRot(this.lon, this.lat));
-    gl.drawElements(gl.TRIANGLES, this._nIdx, gl.UNSIGNED_SHORT, 0);
+    var ty = Math.tan(this.fov * DEG / 2);
+    var cb = cameraBasis(this.lon, this.lat);
+    gl.uniform3fv(this.loc.f, cb.f);
+    gl.uniform3fv(this.loc.r, cb.r);
+    gl.uniform3fv(this.loc.u, cb.u);
+    gl.uniform2f(this.loc.tan, ty * aspect, ty);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
   };
 
   PanoViewer.prototype.load = function (src) {
@@ -341,8 +302,8 @@
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-      gl.generateMipmap(gl.TEXTURE_2D);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
+      // No mipmaps: the atan() wrap at lon=±180 would make mip selection jump
+      // to the smallest level along the seam and draw a visible line.
       self._texOk = true;
       self._dirty = true;
       if (self.onLoad) self.onLoad();
