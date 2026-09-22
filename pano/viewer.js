@@ -78,11 +78,22 @@
     this.lat = opts.startLat != null ? opts.startLat : 0;   // elevation deg
     this.lon = opts.startLon != null ? opts.startLon : 180; // azimuth deg
     this.fov = opts.startFov != null ? opts.startFov : 78;  // vertical FOV deg
-    this.fovMin = 35;
+    this.fovMin = 45;  // vertical FOV floor: wide beyond ~100° horizontal starts
+                       // stretching the pano past its own latitude extent
     this.fovMax = 100;
     this.autoRotate = !!opts.autoRotate;
     this.rotateSpeed = opts.rotateSpeed != null ? opts.rotateSpeed : 12; // deg/SECOND (time-based, FPS-independent)
-    this.renderScale = opts.renderScale != null ? opts.renderScale : 0.5; // internal res multiplier
+    // Internal render resolution multiplier. 0.5 exists ONLY for software-GL machines
+    // (no GPU drivers); on real GPUs it just throws away half the pixels.
+    this.renderScale = opts.renderScale != null ? opts.renderScale : (function () {
+      try {
+        var probe = document.createElement('canvas').getContext('webgl');
+        var dbg = probe && probe.getExtension('WEBGL_debug_renderer_info');
+        var r = dbg ? probe.getParameter(dbg.UNMASKED_RENDERER_WEBGL) : '';
+        if (probe && probe.getExtension('WEBGL_lose_context')) probe.getExtension('WEBGL_lose_context').loseContext();
+        return /swiftshader|softpipe|llvmpipe/i.test(r) ? 0.5 : 1;
+      } catch (e) { return 1; }
+    })();
     this.onDestroy = opts.onDestroy || null;
     this.onError = opts.onError || null;
     this._raf = null;

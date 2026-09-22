@@ -72,7 +72,9 @@
   };
 
   Viewer2D.prototype._zoom = function (mult) {
-    this._zoomK = Math.max(0.4, Math.min(3, this._zoomK * mult));
+    // zoomK 1 = 90° hfov. Floor 0.75 (≈120°): beyond that the visible vertical span
+    // exceeds the pano's 180° latitude extent and collapses to a horizon sliver.
+    this._zoomK = Math.max(0.75, Math.min(3, this._zoomK * mult));
   };
 
   Viewer2D.prototype.load = function (src) {
