@@ -113,7 +113,7 @@
     this.fovMin = 35;
     this.fovMax = 100;
     this.autoRotate = !!opts.autoRotate;
-    this.rotateSpeed = opts.rotateSpeed != null ? opts.rotateSpeed : 0.35; // deg/frame baseline
+    this.rotateSpeed = opts.rotateSpeed != null ? opts.rotateSpeed : 12; // deg/SECOND (time-based, FPS-independent)
     this.onDestroy = opts.onDestroy || null;
     this._raf = null;
     this._texOk = false;
@@ -208,10 +208,12 @@
       var cur = pos(e);
       pointers.set(e.pointerId, cur);
       if (pointers.size === 1) {
+        // ~1:1 feel: a full-viewport drag spans roughly the current FOV
         var k = self.fov / el.clientHeight;
-        self.lon -= (cur.x - prev.x) * k * 0.6;
-        self.lat += (cur.y - prev.y) * k * 0.6;
+        self.lon -= (cur.x - prev.x) * k * 1.5;
+        self.lat += (cur.y - prev.y) * k * 1.5;
         self.lat = Math.max(-85, Math.min(85, self.lat));
+        if (self.onUserMove) self.onUserMove();
       } else if (pointers.size === 2) {
         var pts = Array.from(pointers.values());
         var d = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
@@ -230,6 +232,33 @@
       e.preventDefault();
       self._zoom(e.deltaY * 0.03);
     }, { passive: false });
+
+    // keyboard: arrows to look, +/- (and shift) to zoom — on the canvas so it
+    // works when focused, and on the document as fallback when nothing else
+    // has focus. Tab to the canvas or click once to focus.
+    el.tabIndex = 0;
+    el.style.outline = 'none';
+    function keyTurn(e, down) {
+      var step = e.shiftKey ? 10 : 4; // deg per press
+      switch (e.key) {
+        case 'ArrowLeft':  self.lon -= step; break;
+        case 'ArrowRight': self.lon += step; break;
+        case 'ArrowUp':    self.lat = Math.min(85, self.lat + step); break;
+        case 'ArrowDown':  self.lat = Math.max(-85, self.lat - step); break;
+        case '+': case '=': self._zoom(-3); break;
+        case '-': case '_': self._zoom(3); break;
+        default: return false;
+      }
+      if (down) { e.preventDefault(); if (self.onUserMove) self.onUserMove(); }
+      return true;
+    }
+    el.addEventListener('keydown', function (e) { keyTurn(e, true); });
+    document.addEventListener('keydown', function (e) {
+      // only when no input-ish element has focus and the canvas isn't it
+      var t = document.activeElement;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'BUTTON')) return;
+      keyTurn(e, false);
+    });
 
     this._onResize = function () { self._resize(); };
     window.addEventListener('resize', this._onResize);
@@ -253,10 +282,15 @@
 
   PanoViewer.prototype._loop = function () {
     var self = this;
-    function frame() {
+    var lastT = 0; // ms timestamp of last frame, for time-based motion
+    function frame(t) {
       self._raf = requestAnimationFrame(frame);
+      // time-based drift: FPS-independent so it behaves the same at 5fps (weak
+      // laptop, software GL) and 60fps
+      var dt = lastT ? Math.min(100, t - lastT) : 16; // ms, clamped
+      lastT = t;
       if (self.autoRotate && self._texOk && self._pointers.size === 0) {
-        self.lon -= self.rotateSpeed;
+        self.lon -= self.rotateSpeed * (dt / 1000);
       }
       self._draw();
     }
