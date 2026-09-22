@@ -114,9 +114,11 @@
     this.fovMax = 100;
     this.autoRotate = !!opts.autoRotate;
     this.rotateSpeed = opts.rotateSpeed != null ? opts.rotateSpeed : 12; // deg/SECOND (time-based, FPS-independent)
+    this.renderScale = opts.renderScale != null ? opts.renderScale : 0.5; // internal res multiplier
     this.onDestroy = opts.onDestroy || null;
     this._raf = null;
     this._texOk = false;
+    this._dirty = true;   // draw-on-demand: only redraw when state changed
     this._build();
     this._bind();
     this._loop();
@@ -213,11 +215,12 @@
         self.lon -= (cur.x - prev.x) * k * 1.5;
         self.lat += (cur.y - prev.y) * k * 1.5;
         self.lat = Math.max(-85, Math.min(85, self.lat));
+        self._dirty = true;
         if (self.onUserMove) self.onUserMove();
       } else if (pointers.size === 2) {
         var pts = Array.from(pointers.values());
         var d = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
-        if (lastPinch > 0) self._zoom((lastPinch - d) * 0.12);
+        if (lastPinch > 0) { self._zoom((lastPinch - d) * 0.12); self._dirty = true; }
         lastPinch = d;
       }
     });
@@ -231,6 +234,7 @@
     el.addEventListener('wheel', function (e) {
       e.preventDefault();
       self._zoom(e.deltaY * 0.03);
+      self._dirty = true;
     }, { passive: false });
 
     // keyboard: arrows to look, +/- (and shift) to zoom — on the canvas so it
@@ -238,7 +242,7 @@
     // has focus. Tab to the canvas or click once to focus.
     el.tabIndex = 0;
     el.style.outline = 'none';
-    function keyTurn(e, down) {
+    function keyTurn(e) {
       var step = e.shiftKey ? 10 : 4; // deg per press
       switch (e.key) {
         case 'ArrowLeft':  self.lon -= step; break;
@@ -249,18 +253,21 @@
         case '-': case '_': self._zoom(3); break;
         default: return false;
       }
-      if (down) { e.preventDefault(); if (self.onUserMove) self.onUserMove(); }
+      e.preventDefault();
+      self._dirty = true;
+      if (self.onUserMove) self.onUserMove();
       return true;
     }
-    el.addEventListener('keydown', function (e) { keyTurn(e, true); });
+    el.addEventListener('keydown', keyTurn);
     document.addEventListener('keydown', function (e) {
-      // only when no input-ish element has focus and the canvas isn't it
+      // skip when the canvas handler already handled it (focus) or an input has focus
+      if (e.target === el || e.defaultPrevented) return;
       var t = document.activeElement;
       if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'BUTTON')) return;
-      keyTurn(e, false);
+      keyTurn(e);
     });
 
-    this._onResize = function () { self._resize(); };
+    this._onResize = function () { self._dirty = true; self._resize(); };
     window.addEventListener('resize', this._onResize);
     this._pointers = pointers;
     this._resize();
@@ -273,7 +280,10 @@
   PanoViewer.prototype._resize = function () {
     var c = this.canvas;
     var w = this.container.clientWidth, h = this.container.clientHeight;
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    // Software-rendered machines (no GPU drivers) can't redraw fullscreen WebGL
+    // at interactive rates — render internally at reduced resolution and let CSS
+    // upscale. Pano content is soft/foggy so the quality loss is invisible.
+    var dpr = Math.min(window.devicePixelRatio || 1, 2) * this.renderScale;
     w = Math.max(1, Math.round(w * dpr));
     h = Math.max(1, Math.round(h * dpr));
     if (c.width !== w || c.height !== h) { c.width = w; c.height = h; }
@@ -283,16 +293,22 @@
   PanoViewer.prototype._loop = function () {
     var self = this;
     var lastT = 0; // ms timestamp of last frame, for time-based motion
-    function frame(t) {
-      self._raf = requestAnimationFrame(frame);
-      // time-based drift: FPS-independent so it behaves the same at 5fps (weak
-      // laptop, software GL) and 60fps
+    function frame() {
+      // setTimeout callbacks receive NO timestamp — always use performance.now().
+      var t = performance.now();
       var dt = lastT ? Math.min(100, t - lastT) : 16; // ms, clamped
       lastT = t;
       if (self.autoRotate && self._texOk && self._pointers.size === 0) {
         self.lon -= self.rotateSpeed * (dt / 1000);
+        self._dirty = true;
       }
+      if (self._dirty && self._texOk) {
+        self._dirty = false;
+      }
+      // Always draw every tick: simple, and the compositor keeps up on fresh
+      // frames. Time-based drift keeps motion FPS-independent.
       self._draw();
+      self._raf = setTimeout(frame, 66); // ~15fps target
     }
     this._raf = requestAnimationFrame(frame);
   };
@@ -328,6 +344,7 @@
       gl.generateMipmap(gl.TEXTURE_2D);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_LINEAR);
       self._texOk = true;
+      self._dirty = true;
       if (self.onLoad) self.onLoad();
     };
     img.onerror = function () {
@@ -340,6 +357,7 @@
     if (lon != null) this.lon = lon;
     if (lat != null) this.lat = Math.max(-85, Math.min(85, lat));
     if (fov != null) this.fov = Math.max(this.fovMin, Math.min(this.fovMax, fov));
+    this._dirty = true;
   };
 
   PanoViewer.prototype.setAutoRotate = function (on) {
@@ -347,6 +365,7 @@
   };
 
   PanoViewer.prototype.destroy = function () {
+    clearTimeout(this._raf);
     cancelAnimationFrame(this._raf);
     window.removeEventListener('resize', this._onResize);
     if (this.canvas && this.canvas.parentNode) this.canvas.parentNode.removeChild(this.canvas);
@@ -354,6 +373,6 @@
   };
 
   window.PanoViewer = {
-    mount: function (container, opts) { return new PanoViewer(container, opts); }
+    mount: function (container, opts) { var inst = new PanoViewer(container, opts); window.__lastViewer = inst; return inst; }
   };
 })();
