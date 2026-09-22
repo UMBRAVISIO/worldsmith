@@ -200,6 +200,10 @@ body { font-family: 'Inter', sans-serif; }
           document.getElementById('loader').classList.add('gone');
         }
       };
+      // per-world initial heading (deg; 0 = centre column of the equirect).
+      // Worlds without a measured feature keep the viewers' default (180).
+      if (typeof w.startLon === 'number') opts.startLon = w.startLon;
+      if (typeof w.startLat === 'number') opts.startLat = w.startLat;
       /* Viewer selection.
        * WebGL is used only when ALL of these hold:
        *  1. the unmasked renderer string names a recognisable hardware GPU
