@@ -29,7 +29,7 @@ worldsmith/
 ├── deploy/          # deploy script + rsync config
 ├── docs/            # world briefs, prompt library, run notes
 ├── panos/           # equirectangular pano JPEGs (POT 2048x1024, committed)
-├── pano/            # pano-viewer assets (ambience placeholder wav)
+├── pano/            # pano-viewer assets + per-world ambience MP3s
 └── README.md
 ```
 

@@ -17,6 +17,7 @@
       "splat": "worlds/grav_fog_dense_500k.ply",
       "world_id": "ff70ca7b-49ba-4bf2-8b8a-9f543037f5c0",
       "seed_file": "pipeline/seeds/2d0de219-b1fa-4505-af5e-96b6c4fe669d.png",
+      "ambience": "pano/ambience/grav_fog_dense.mp3",
       "tier": "plus",
       "date": "2026-09-19",
       "featured": true
@@ -32,6 +33,7 @@
       "splat": "worlds/grav_angel_statue_500k.ply",
       "world_id": "cc7a1948-0bec-450c-9476-906283d8fb39",
       "seed_file": "pipeline/seeds/630086e3-d157-4d8a-a813-aa91d52e8d12.png",
+      "ambience": "pano/ambience/grav_angel_statue.mp3",
       "tier": "plus",
       "date": "2026-09-19",
       "featured": true

@@ -147,6 +147,15 @@ main {
   top: auto; bottom: 0.7rem; right: 0.7rem;
   color: var(--text);
 }
+.card .badge.audio {
+  top: 0.7rem; left: 0.7rem; right: auto; bottom: auto;
+  display: inline-flex; align-items: center; gap: 0.3em;
+}
+.card .badge.audio svg {
+  width: 11px; height: 11px;
+  fill: none; stroke: currentColor;
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+}
 footer {
   text-align: center;
   padding: 2.5rem 1rem 3rem;
@@ -186,10 +195,14 @@ fetch('./manifest.json')
       const a = document.createElement('a');
       a.className = 'card' + (w.pano ? '' : ' locked');
       if (w.pano) a.href = `world.html?id=${encodeURIComponent(w.id)}`;
+      const audioBadge = w.ambience
+        ? `<span class="badge audio" title="Ambient sound"><svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18 6a8.5 8.5 0 0 1 0 12"/></svg>Sound</span>`
+        : '';
       a.innerHTML = `
         <div class="thumb" style="background-image:url('${w.thumbnail}')">
           <span class="badge ${w.tier === 'plus' ? 'plus' : ''}">${w.tier === 'plus' ? 'Full quality' : 'Preview'}</span>
           <span class="badge pano">360&#176; view</span>
+          ${audioBadge}
         </div>
         <div class="body">
           <h2>${w.title}</h2>
