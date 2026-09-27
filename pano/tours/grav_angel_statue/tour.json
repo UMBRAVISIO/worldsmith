@@ -4,7 +4,7 @@
  "music": "pano/tours/grav_angel_statue/music.mp3",
  "bell": "pano/tours/grav_angel_statue/bell.mp3",
  "narrationAt": 2.0,
- "duration": 106.8,
+ "duration": 94.9,
  "levels": {
   "narration": 1.0,
   "music": 0.2,
@@ -13,10 +13,10 @@
   "soundscapeDuck": 0.35
  },
  "musicFadeOut": [
-  107.2,
-  115.8
+  84.9,
+  91.4
  ],
- "bellAt": 71.9,
+ "bellAt": 60.5,
  "bellLon": -2.5,
  "keyframes": [
   {
@@ -27,28 +27,28 @@
    "_": "replaced by the user's pose"
   },
   {
-   "t": 5.79,
+   "t": 5.4,
    "lon": -95,
    "lat": -4,
    "fov": 90,
    "_": "n2.9 'the old churchyard' - wide on the left fog bank"
   },
   {
-   "t": 11.58,
+   "t": 9.2,
    "lon": -62,
    "lat": -8,
    "fov": 86,
    "_": "n8.7 'where the fog keeps its promises'"
   },
   {
-   "t": 19.26,
+   "t": 21.2,
    "lon": -28,
    "lat": -12,
    "fov": 80,
    "_": "n16.4 'they get so few' - across the headstones"
   },
   {
-   "t": 23.6,
+   "t": 23.8,
    "lon": -2.5,
    "lat": 8,
    "fov": 72,
@@ -56,14 +56,14 @@
    "_": "n20.7 'The Stone Angel' - she is framed"
   },
   {
-   "t": 31.86,
+   "t": 27.7,
    "lon": -2.5,
    "lat": 29,
    "fov": 56,
    "_": "n29.0 'worn her face smooth' - tilt up to the face"
   },
   {
-   "t": 39.1,
+   "t": 38.0,
    "lon": -2.5,
    "lat": 33,
    "fov": 49,
@@ -71,21 +71,21 @@
    "_": "n36.2 'never once blinked' - hold on the face"
   },
   {
-   "t": 43.73,
+   "t": 43.5,
    "lon": -6,
    "lat": -40,
    "fov": 62,
    "_": "n40.8 'votive candles at her feet' - tilt down"
   },
   {
-   "t": 47.79,
+   "t": 48.7,
    "lon": 3,
    "lat": -43,
    "fov": 60,
    "_": "n44.9 'the number changes' - counting along the row"
   },
   {
-   "t": 51.55,
+   "t": 51.4,
    "lon": 12,
    "lat": -41,
    "fov": 61,
@@ -93,21 +93,21 @@
    "_": "n48.7 'it always changes' - rest on the candle field"
   },
   {
-   "t": 55.61,
+   "t": 52.0,
    "lon": -40,
    "lat": 6,
    "fov": 80,
    "_": "n52.7 'the wind through the yew trees'"
   },
   {
-   "t": 59.95,
+   "t": 52.6,
    "lon": -88,
    "lat": 14,
    "fov": 88,
    "_": "n57.1 'old ones' - into the great tree's canopy"
   },
   {
-   "t": 67.19,
+   "t": 54.0,
    "lon": -118,
    "lat": -3,
    "fov": 84,
@@ -115,7 +115,7 @@
    "_": "n64.3 'let you pass' - drift into the fog bank"
   },
   {
-   "t": 72.26,
+   "t": 58.5,
    "lon": -2.5,
    "lat": 20,
    "fov": 66,
@@ -123,14 +123,14 @@
    "_": "n69.4 'when the bell TOLLS' - whip back to her; the bell (bellAt 50.4 = n70.1) rings in the breath after 'tolls'"
   },
   {
-   "t": 75.59,
+   "t": 62.1,
    "lon": -2.5,
    "lat": 32,
    "fov": 52,
    "_": "n72.7 'turns her head'"
   },
   {
-   "t": 79.79,
+   "t": 67.9,
    "lon": 1.5,
    "lat": 33,
    "fov": 48,
@@ -138,7 +138,7 @@
    "_": "n76.9 'only once' - a small uncanny sideways shift"
   },
   {
-   "t": 85.15,
+   "t": 72.8,
    "lon": -1,
    "lat": 24,
    "fov": 92,
@@ -146,7 +146,7 @@
    "_": "n82.3 'her wings unfold' - wide reveal of the wingspan"
   },
   {
-   "t": 90.36,
+   "t": 75.2,
    "lon": -1,
    "lat": 24,
    "fov": 92,
@@ -154,7 +154,7 @@
    "_": "n83.6-60.4 'stand very still' - absolute hold"
   },
   {
-   "t": 96.44,
+   "t": 83.2,
    "lon": -2.5,
    "lat": 34,
    "fov": 46,
@@ -162,14 +162,14 @@
    "_": "n93.5 'or the mourned' - creeping push to her face"
   },
   {
-   "t": 101.37,
+   "t": 88.8,
    "lon": 0,
    "lat": 4,
    "fov": 76,
    "_": "n98.5 'welcome to the churchyard, wanderer'"
   },
   {
-   "t": 105.71,
+   "t": 89.4,
    "lon": 3,
    "lat": -38,
    "fov": 66,
@@ -177,15 +177,7 @@
    "_": "n102.8 'the candles know you're here now'"
   },
   {
-   "t": 108.61,
-   "lon": 3,
-   "lat": -38,
-   "fov": 66,
-   "stop": true,
-   "_": "hold"
-  },
-  {
-   "t": 116.57,
+   "t": 94.9,
    "lon": 2,
    "lat": 0,
    "fov": 78,
@@ -195,84 +187,74 @@
  ],
  "captions": [
   {
-   "t": 2.9,
-   "e": 11.44,
-   "text": "You've found it. The old churchyard\u2026 where the fog keeps its promises."
+   "t": 2.5,
+   "e": 12.4,
+   "text": "You have found it... the old churchyard. Where the fog keeps its promises."
   },
   {
-   "t": 12.74,
-   "e": 19.69,
-   "text": "Stay a while. The dead don't mind visitors \u2014 they get so few."
+   "t": 13.5,
+   "e": 22.1,
+   "text": "Stay... a while. The dead do not mind visitors. They get so few."
   },
   {
-   "t": 21.0,
-   "e": 26.5,
-   "text": "There she is. The Stone Angel."
+   "t": 23.8,
+   "e": 27.0,
+   "text": "There she is... The Stone Angel."
   },
   {
-   "t": 26.65,
-   "e": 35.77,
-   "text": "Two hundred years of rain and frost have worn her face smooth, but she still watches."
+   "t": 27.7,
+   "e": 37.3,
+   "text": "Two hundred years of rain, and frost, have worn her face smooth. But she still watches."
   },
   {
-   "t": 36.49,
-   "e": 39.97,
-   "text": "She has never once blinked."
+   "t": 38.0,
+   "e": 42.2,
+   "text": "She has never... once... blinked."
   },
   {
-   "t": 40.84,
-   "e": 46.05,
-   "text": "Count the votive candles at her feet\u2026 if you can."
+   "t": 43.5,
+   "e": 47.6,
+   "text": "Count the votive candles... if you can."
   },
   {
-   "t": 46.77,
-   "e": 51.84,
+   "t": 48.7,
+   "e": 54.6,
    "text": "The number changes. It always changes."
   },
   {
-   "t": 52.71,
-   "e": 60.53,
-   "text": "Listen. The wind through the yew trees carries names. Old ones."
+   "t": 55.1,
+   "e": 58.0,
+   "text": "But mind the hour."
   },
   {
-   "t": 61.69,
-   "e": 68.06,
-   "text": "Whisper one back, and the fog will part just enough to let you pass."
+   "t": 58.5,
+   "e": 62.4,
+   "text": "When the bell tolls... the angel turns her head."
   },
   {
-   "t": 68.93,
-   "e": 73.27,
-   "text": "But mind the hour. When the bell tolls,"
+   "t": 65.5,
+   "e": 70.0,
+   "text": "Only a little. Only once."
   },
   {
-   "t": 73.42,
-   "e": 80.52,
-   "text": "the angel turns her head \u2014 only a little, only once."
+   "t": 71.3,
+   "e": 74.6,
+   "text": "And if you ever hear her wings unfold..."
   },
   {
-   "t": 81.82,
-   "e": 85.73,
-   "text": "And if you ever hear her wings unfold\u2026"
+   "t": 75.2,
+   "e": 78.2,
+   "text": "Stand very still."
   },
   {
-   "t": 86.45,
-   "e": 90.36,
-   "text": "\u2026stand very still."
+   "t": 78.8,
+   "e": 87.0,
+   "text": "She is only deciding... whether you are the mourner... or the mourned."
   },
   {
-   "t": 90.65,
-   "e": 97.6,
-   "text": "She is only deciding whether you are the mourner\u2026 or the mourned."
-  },
-  {
-   "t": 99.34,
-   "e": 102.82,
-   "text": "Welcome to the churchyard, wanderer."
-  },
-  {
-   "t": 103.11,
-   "e": 107.88,
-   "text": "The candles know you're here now."
+   "t": 88.8,
+   "e": 92.8,
+   "text": "The candles know you are here now, wanderer."
   }
  ]
 }
