@@ -17,7 +17,7 @@
       "splat": "worlds/grav_fog_dense_500k.ply",
       "world_id": "ff70ca7b-49ba-4bf2-8b8a-9f543037f5c0",
       "seed_file": "pipeline/seeds/2d0de219-b1fa-4505-af5e-96b6c4fe669d.png",
-      "ambience": "pano/ambience/grav_fog_dense.mp3",
+      "ambience": "pano/ambience/grav_fog_dense_gothic.mp3",
       "tier": "plus",
       "date": "2026-09-19",
       "featured": true,
@@ -35,15 +35,18 @@
       },
       "soundscape": {
         "gain": 0.9,
-        "bell": "pano/tours/grav_fog_dense/bell.mp3",
         "layers": [],
-        "_note": "noise layers intentionally omitted (beach-wave flaw); bell+crow events only",
+        "_note": "no bells (user), real crow samples panned (group + single), events weighted 50% crow; bell only via tour's bellAt",
         "events": {
           "min": 20,
           "max": 60,
           "bellLon": 162,
           "crowLon": -155
-        }
+        },
+        "crows": [
+          "pano/sfx/crows-group.mp3",
+          "pano/sfx/crows-single.mp3"
+        ]
       }
     },
     {

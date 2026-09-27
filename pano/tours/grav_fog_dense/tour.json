@@ -2,7 +2,6 @@
  "_doc": "Guided tour for Graveyard in the Fog. Same engine/approach as grav_angel_statue (v3). Times t are TOUR seconds; narration time n = t - narrationAt (2.0). Keyframes: lon/lat/fov (vertical fov). stop:true = camera rests. Anchors measured on panos/grav_fog_dense.jpg (2048x1024): candle plinth lon 0 lat -39, chapel lit window lon +162 lat +2, crescent moon lon +19 lat +28, left great tree lon -155, right great tree lon +131, tombstone clusters L(-135..-55) CL(-55..-5) crosses(+55..+75), iron fence horizon, brightest fog -60..+20. Narration word times from vosk forced alignment of narration.mp3 (85.56s, single take).",
  "narration": "pano/tours/grav_fog_dense/narration.mp3",
  "music": "pano/tours/grav_fog_dense/music.mp3",
- "bell": "pano/tours/grav_fog_dense/bell.mp3",
  "narrationAt": 2.0,
  "duration": 89.6,
  "levels": {
@@ -16,7 +15,6 @@
   79.6,
   86.1
  ],
- "bellAt": 76.6,
  "keyframes": [
   {
    "t": 0.0,
@@ -276,6 +274,5 @@
    "e": 87.5,
    "text": "The graveyard will still be here. It always waits."
   }
- ],
- "bellLon": 0.0
+ ]
 }
