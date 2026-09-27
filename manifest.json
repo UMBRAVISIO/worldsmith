@@ -20,7 +20,31 @@
       "ambience": "pano/ambience/grav_fog_dense.mp3",
       "tier": "plus",
       "date": "2026-09-19",
-      "featured": true
+      "featured": true,
+      "tour": "pano/tours/grav_fog_dense/tour.json",
+      "fx": {
+        "scale": 0.5,
+        "fps": 15,
+        "vignette": 0.6,
+        "fog": [
+          {
+            "lat": 5,
+            "density": 0.75
+          }
+        ]
+      },
+      "soundscape": {
+        "gain": 0.9,
+        "bell": "pano/tours/grav_fog_dense/bell.mp3",
+        "layers": [],
+        "_note": "noise layers intentionally omitted (beach-wave flaw); bell+crow events only",
+        "events": {
+          "min": 20,
+          "max": 60,
+          "bellLon": 162,
+          "crowLon": -155
+        }
+      }
     },
     {
       "id": "grav_angel_statue",

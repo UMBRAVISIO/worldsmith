@@ -1,0 +1,281 @@
+{
+ "_doc": "Guided tour for Graveyard in the Fog. Same engine/approach as grav_angel_statue (v3). Times t are TOUR seconds; narration time n = t - narrationAt (2.0). Keyframes: lon/lat/fov (vertical fov). stop:true = camera rests. Anchors measured on panos/grav_fog_dense.jpg (2048x1024): candle plinth lon 0 lat -39, chapel lit window lon +162 lat +2, crescent moon lon +19 lat +28, left great tree lon -155, right great tree lon +131, tombstone clusters L(-135..-55) CL(-55..-5) crosses(+55..+75), iron fence horizon, brightest fog -60..+20. Narration word times from vosk forced alignment of narration.mp3 (85.56s, single take).",
+ "narration": "pano/tours/grav_fog_dense/narration.mp3",
+ "music": "pano/tours/grav_fog_dense/music.mp3",
+ "bell": "pano/tours/grav_fog_dense/bell.mp3",
+ "narrationAt": 2.0,
+ "duration": 89.6,
+ "levels": {
+  "narration": 1.0,
+  "music": 0.2,
+  "bell": 0.75,
+  "ambienceDuck": 0.16,
+  "soundscapeDuck": 0.35
+ },
+ "musicFadeOut": [
+  79.6,
+  86.1
+ ],
+ "bellAt": 76.6,
+ "keyframes": [
+  {
+   "t": 0.0,
+   "lon": 1,
+   "lat": 0,
+   "fov": 78,
+   "stop": true,
+   "_": "replaced by user's pose"
+  },
+  {
+   "t": 3.1,
+   "lon": -30,
+   "lat": -6,
+   "fov": 88,
+   "_": "n1.1 'old churchyard' - wide establishing, fog band"
+  },
+  {
+   "t": 6.6,
+   "lon": 10,
+   "lat": 4,
+   "fov": 84,
+   "_": "n3.3 'fog never lifts' - brightest fog + fence"
+  },
+  {
+   "t": 10.4,
+   "lon": 0,
+   "lat": -30,
+   "fov": 66,
+   "_": "n8.4 'stay on the path' - toward the path"
+  },
+  {
+   "t": 16.5,
+   "lon": 0,
+   "lat": -39,
+   "fov": 52,
+   "stop": true,
+   "_": "n14.5 'a light' - find the candle plinth"
+  },
+  {
+   "t": 20.5,
+   "lon": 0,
+   "lat": -46,
+   "fov": 44,
+   "stop": true,
+   "_": "n18.2 'one candle on a stone plinth' - close on the flame"
+  },
+  {
+   "t": 26.1,
+   "lon": -14,
+   "lat": -10,
+   "fov": 62,
+   "_": "n24.3 'no one ever comes' - drift up across stones"
+  },
+  {
+   "t": 29.7,
+   "lon": -60,
+   "lat": 2,
+   "fov": 80,
+   "_": "n27.7 'the fence behind you' - turn to the fence line"
+  },
+  {
+   "t": 34.0,
+   "lon": 130,
+   "lat": 6,
+   "fov": 88,
+   "_": "n32.3 'or is it the dead' - sweep the far fence"
+  },
+  {
+   "t": 38.6,
+   "lon": -60,
+   "lat": -4,
+   "fov": 78,
+   "_": "n36.7 'who can say' - lost in the fog bank"
+  },
+  {
+   "t": 41.0,
+   "lon": -30,
+   "lat": -18,
+   "fov": 62,
+   "_": "n39.0 'mind the stones'"
+  },
+  {
+   "t": 43.2,
+   "lon": -75,
+   "lat": -12,
+   "fov": 68,
+   "_": "n41.4 'some lean' - leaning stones cluster"
+  },
+  {
+   "t": 45.6,
+   "lon": -75,
+   "lat": -8,
+   "fov": 56,
+   "stop": true,
+   "_": "n43.6 'some listen' - rest, uncomfortably close"
+  },
+  {
+   "t": 49.3,
+   "lon": -155,
+   "lat": 6,
+   "fov": 84,
+   "_": "n47.1 'past the great bare tree' - swing to left tree"
+  },
+  {
+   "t": 53.0,
+   "lon": 162,
+   "lat": 2,
+   "fov": 56,
+   "stop": true,
+   "_": "n51.7 'the chapel' - framed, lit window"
+  },
+  {
+   "t": 56.0,
+   "lon": 162,
+   "lat": 6,
+   "fov": 44,
+   "stop": true,
+   "_": "n53.7 'one window glows' - push toward the window"
+  },
+  {
+   "t": 63.0,
+   "lon": 162,
+   "lat": 2,
+   "fov": 50,
+   "stop": true,
+   "_": "n61.4 'always warm' - hold on the window"
+  },
+  {
+   "t": 66.3,
+   "lon": 19,
+   "lat": 20,
+   "fov": 80,
+   "_": "n64.5 'look up' - tilt toward moon"
+  },
+  {
+   "t": 69.3,
+   "lon": 19,
+   "lat": 28,
+   "fov": 60,
+   "stop": true,
+   "_": "n68.3 'the moon is thin tonight' - find the crescent"
+  },
+  {
+   "t": 73.9,
+   "lon": -20,
+   "lat": 2,
+   "fov": 78,
+   "_": "n72.0 'watched' - drop back to the fence"
+  },
+  {
+   "t": 75.9,
+   "lon": -60,
+   "lat": 0,
+   "fov": 86,
+   "_": "n73.4 'when the fog parts' - sweep the fog line"
+  },
+  {
+   "t": 77.9,
+   "lon": -60,
+   "lat": -2,
+   "fov": 70,
+   "stop": true,
+   "_": "n75.9 'see the gate' - gate side rests"
+  },
+  {
+   "t": 81.0,
+   "lon": 0,
+   "lat": -35,
+   "fov": 64,
+   "_": "n78.7 'moment to leave' - back to the plinth"
+  },
+  {
+   "t": 87.6,
+   "lon": 0,
+   "lat": -42,
+   "fov": 52,
+   "stop": true,
+   "_": "n84.2 'it always waits' - final: close on candle"
+  },
+  {
+   "t": 89.6,
+   "lon": 1,
+   "lat": 0,
+   "fov": 78,
+   "stop": true,
+   "_": "return to startLon"
+  }
+ ],
+ "captions": [
+  {
+   "t": 2.5,
+   "e": 9.6,
+   "text": "You have found the old churchyard... where the fog never lifts, and the candles never go out."
+  },
+  {
+   "t": 10.4,
+   "e": 15.4,
+   "text": "Stay on the path... the ground here does not remember being walked."
+  },
+  {
+   "t": 16.5,
+   "e": 21.5,
+   "text": "There... a light. One candle on a stone plinth."
+  },
+  {
+   "t": 24.1,
+   "e": 28.5,
+   "text": "Someone tends it. No one ever comes."
+  },
+  {
+   "t": 29.7,
+   "e": 34.0,
+   "text": "The fence behind you keeps more than the living inside..."
+  },
+  {
+   "t": 34.3,
+   "e": 39.8,
+   "text": "Or is it the dead? In this fog... who can say."
+  },
+  {
+   "t": 41.0,
+   "e": 47.6,
+   "text": "Mind the stones. Some lean. Some listen."
+  },
+  {
+   "t": 48.8,
+   "e": 54.5,
+   "text": "If you look past the great bare tree... you may see it. The chapel."
+  },
+  {
+   "t": 55.7,
+   "e": 61.0,
+   "text": "One window glows. No one has held a service there in a hundred years..."
+  },
+  {
+   "t": 62.7,
+   "e": 65.2,
+   "text": "Yet the window is always warm."
+  },
+  {
+   "t": 66.5,
+   "e": 68.8,
+   "text": "Look up... past the branches."
+  },
+  {
+   "t": 70.3,
+   "e": 74.8,
+   "text": "The moon is thin tonight. It does not like to be watched."
+  },
+  {
+   "t": 75.4,
+   "e": 82.2,
+   "text": "When the fog parts... and you can see the gate... that is your moment to leave."
+  },
+  {
+   "t": 82.8,
+   "e": 87.5,
+   "text": "The graveyard will still be here. It always waits."
+  }
+ ],
+ "bellLon": 0.0
+}
