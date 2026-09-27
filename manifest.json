@@ -190,20 +190,6 @@
       "tier": "plus",
       "date": "2026-09-19",
       "featured": true
-    },
-    {
-      "id": "grav_haunted_house",
-      "title": "The Haunted Farmhouse",
-      "description": "A derelict two-story farmhouse at blue hour. Two amber windows glow warm in the dark \u2014 someone is home, though no one has lived here for years. The wet road curves past and vanishes into fog.",
-      "thumbnail": "assets/thumbs/grav_haunted_house.webp",
-      "pano": "panos/grav_haunted_house.jpg",
-      "startLon": 1,
-      "pano_credit": "World Labs Marble \u2014 user-seeded (UMBRAVISIO farmhouse image) image-to-world",
-      "world_id": "9342d4f1-2dee-440d-ad75-1def096f19d6",
-      "seed_file": "pipeline/seeds/magnific-d8j8lHonFOuuaIyygkEp-umbravisio_Cinematic_shot_of_a_haunted_house_--ar_169_--style_9d780de1-e72b-4f96-81ff-37833832dada_3.png",
-      "tier": "draft",
-      "date": "2026-09-27",
-      "featured": false
     }
   ]
 }
