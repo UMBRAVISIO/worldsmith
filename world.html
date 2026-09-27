@@ -138,7 +138,7 @@ body.has-fx .vignette, body.has-fx .fog { display: none; } /* replaced by the fx
 .tour-note {
   position: absolute; top: 3.4rem; left: 50%; transform: translateX(-50%); z-index: 21;
   color: var(--dim); font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase;
-  opacity: 0; transition: opacity 0.8s ease; pointer-events: none;
+  opacity: 0; transition: opacity 0.8s ease; pointer-events: none; white-space: nowrap;
 }
 .tour-note.on { opacity: 0.85; }
 @media (max-width: 640px) {
@@ -205,7 +205,7 @@ body.has-fx .vignette, body.has-fx .fog { display: none; } /* replaced by the fx
 <script src="pano/cam-adapter.js?v=1"></script>
 <script src="pano/cinema-audio.js?v=1"></script>
 <script src="pano/cinema-fx.js?v=1"></script>
-<script src="pano/cinema-tour.js?v=1"></script>
+<script src="pano/cinema-tour.js?v=2"></script>
 <script>
 (function () {
   var params = new URLSearchParams(location.search);
@@ -301,6 +301,9 @@ body.has-fx .vignette, body.has-fx .fog { display: none; } /* replaced by the fx
             /* --- controls --- */
       var btnRotate = document.getElementById('btn-rotate');
       btnRotate.addEventListener('click', function () {
+        // Drift is a camera choice: it ends a running tour first (the tour's
+        // cleanup restores the pre-tour drift state, then we toggle from there).
+        if (tour && tour.state !== 'idle') tour.cancel('user', 'drift');
         var on = !view.autoRotate;
         view.setAutoRotate(on);
         btnRotate.classList.toggle('active', on);
@@ -424,6 +427,7 @@ body.has-fx .vignette, body.has-fx .fog { display: none; } /* replaced by the fx
         var capEl = document.getElementById('caption');
         var noteEl = document.getElementById('tour-note');
         var tourLabel = btnTour.querySelector('span');
+        if (window.matchMedia && matchMedia('(pointer: coarse)').matches) noteEl.textContent = 'drag to leave the tour';
         fetch(w.tour).then(function (r) {
           if (!r.ok) throw new Error('tour ' + r.status);
           return r.json();

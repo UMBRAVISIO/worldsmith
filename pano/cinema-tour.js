@@ -48,6 +48,7 @@
     this._timers = [];
     this._fades = [];
     this._pose = { lon: 0, lat: 0, fov: 78 };
+    this._tickFn = this._tick.bind(this);   // one bound fn, no per-tick closure
     this._prepKeys();
     var self = this;
     cam.onUserInput(function (kind) { if (self.state === 'playing' || self.state === 'loading') self.cancel('user', kind); });
@@ -231,7 +232,7 @@
     this._captions();
 
     if (this.t >= cfg.duration) { this._finish('end'); return; }
-    this._timer = setTimeout(function () { self._tick(); }, TICK_MS);
+    this._timer = setTimeout(this._tickFn, TICK_MS);
   };
 
   CinemaTour.prototype._fireBell = function () {

@@ -7,7 +7,7 @@
   "duration": 80.5,
   "levels": { "narration": 1.0, "music": 0.2, "bell": 0.75, "ambienceDuck": 0.16, "soundscapeDuck": 0.35 },
   "musicFadeOut": [74.0, 80.0],
-  "bellAt": 49.85,
+  "bellAt": 50.4,
   "bellLon": -2.5,
   "keyframes": [
     { "t": 0.0,  "lon": 2,    "lat": 0,   "fov": 78, "_": "replaced by the user's pose" },
@@ -23,7 +23,7 @@
     { "t": 38.4, "lon": -40,  "lat": 6,   "fov": 80, "_": "n36.4 'the wind through the yew trees'" },
     { "t": 41.4, "lon": -88,  "lat": 14,  "fov": 88, "_": "n39.4 'old ones' - into the great tree's canopy" },
     { "t": 46.4, "lon": -118, "lat": -3,  "fov": 84, "stop": true, "_": "n44.4 'let you pass' - drift into the fog bank" },
-    { "t": 49.9, "lon": -2.5, "lat": 20,  "fov": 66, "stop": true, "_": "n47.9 'when the bell TOLLS' - whip back to her" },
+    { "t": 49.9, "lon": -2.5, "lat": 20,  "fov": 66, "stop": true, "_": "n47.9 'when the bell TOLLS' - whip back to her; the bell (bellAt 50.4 = n48.4) rings in the breath after 'tolls'" },
     { "t": 52.2, "lon": -2.5, "lat": 32,  "fov": 52, "_": "n50.2 'turns her head'" },
     { "t": 55.1, "lon": 1.5,  "lat": 33,  "fov": 48, "stop": true, "_": "n53.1 'only once' - a small uncanny sideways shift" },
     { "t": 58.8, "lon": -1,   "lat": 24,  "fov": 92, "stop": true, "_": "n56.8 'her wings unfold' - wide reveal of the wingspan" },
