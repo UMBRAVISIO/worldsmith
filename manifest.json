@@ -1,7 +1,7 @@
 {
   "site": {
     "title": "WORLDSMITH",
-    "tagline": "Explorable Halloween worlds — painted in light, entered as panoramas",
+    "tagline": "Explorable Halloween worlds \u2014 painted in light, entered as panoramas",
     "experience": "pano",
     "vr_enabled": true
   },
@@ -13,7 +13,7 @@
       "thumbnail": "assets/thumbs/grav_fog_dense_plus.webp",
       "pano": "panos/grav_fog_dense.jpg",
       "startLon": 1,
-      "pano_credit": "World Labs Marble — equirectangular capture",
+      "pano_credit": "World Labs Marble \u2014 equirectangular capture",
       "splat": "worlds/grav_fog_dense_500k.ply",
       "world_id": "ff70ca7b-49ba-4bf2-8b8a-9f543037f5c0",
       "seed_file": "pipeline/seeds/2d0de219-b1fa-4505-af5e-96b6c4fe669d.png",
@@ -29,41 +29,135 @@
       "thumbnail": "assets/thumbs/grav_angel_statue_plus.webp",
       "pano": "panos/grav_angel_statue.jpg",
       "startLon": 2,
-      "pano_credit": "World Labs Marble — equirectangular capture",
+      "pano_credit": "World Labs Marble \u2014 equirectangular capture",
       "splat": "worlds/grav_angel_statue_500k.ply",
       "world_id": "cc7a1948-0bec-450c-9476-906283d8fb39",
       "seed_file": "pipeline/seeds/630086e3-d157-4d8a-a813-aa91d52e8d12.png",
-      "ambience": "pano/ambience/grav_angel_statue.mp3",
+      "ambience": "pano/ambience/grav_angel_statue_gothic.mp3",
       "tour": "pano/tours/grav_angel_statue/tour.json",
       "soundscape": {
-        "gain": 0.8,
+        "gain": 0.9,
         "bell": "pano/tours/grav_angel_statue/bell.mp3",
-        "layers": [
-          { "name": "wind", "lon": 180, "gain": 0.5, "band": [180, 700], "q": 0.6, "lfo": 0.06, "gust": 0.11 },
-          { "name": "branches", "lon": -117, "gain": 0.12, "band": [2400, 4200], "q": 0.9, "lfo": 0.09, "gust": 0.17 }
-        ],
+        "layers": [],
         "events": {
           "min": 20,
           "max": 60,
           "bellLon": 150,
           "crowLon": -117
-        }
+        },
+        "_note": "wind/branch noise layers removed per user 2026-09-27 (synthesized bandpass noise = beach waves); ambience is now faint gothic music; bell+crow events kept"
       },
       "fx": {
         "scale": 0.5,
         "fps": 15,
         "vignette": 0.55,
         "fog": [
-          { "lat": 8, "height": 14, "alpha": 0.22, "speed": 0.35, "parallax": 0.8, "tile": 140, "seed": 11, "tint": [140, 136, 126] },
-          { "lat": -5, "height": 20, "alpha": 0.42, "speed": 0.6, "parallax": 1.0, "tile": 120, "seed": 23, "tint": [150, 144, 132] },
-          { "lat": -50, "height": 30, "alpha": 0.38, "speed": 1.1, "parallax": 1.35, "tile": 100, "seed": 41, "tint": [132, 126, 116] }
+          {
+            "lat": 8,
+            "height": 14,
+            "alpha": 0.22,
+            "speed": 0.35,
+            "parallax": 0.8,
+            "tile": 140,
+            "seed": 11,
+            "tint": [
+              140,
+              136,
+              126
+            ]
+          },
+          {
+            "lat": -5,
+            "height": 20,
+            "alpha": 0.42,
+            "speed": 0.6,
+            "parallax": 1.0,
+            "tile": 120,
+            "seed": 23,
+            "tint": [
+              150,
+              144,
+              132
+            ]
+          },
+          {
+            "lat": -50,
+            "height": 30,
+            "alpha": 0.38,
+            "speed": 1.1,
+            "parallax": 1.35,
+            "tile": 100,
+            "seed": 41,
+            "tint": [
+              132,
+              126,
+              116
+            ]
+          }
         ],
         "candles": {
-          "color": [255, 146, 58],
+          "color": [
+            255,
+            146,
+            58
+          ],
           "radius": 2.4,
           "intensity": 0.55,
-          "pool": [3, -55, 22],
-          "points": [[-14.4, -57.0], [-7.7, -57.3], [-4.0, -57.8], [-0.4, -59.2], [4.0, -57.7], [9.3, -57.8], [11.2, -57.7], [14.6, -57.3], [7.9, -50.3], [18.1, -49.7], [19.9, -52.4], [21.8, -54.8]]
+          "pool": [
+            3,
+            -55,
+            22
+          ],
+          "points": [
+            [
+              -14.4,
+              -57.0
+            ],
+            [
+              -7.7,
+              -57.3
+            ],
+            [
+              -4.0,
+              -57.8
+            ],
+            [
+              -0.4,
+              -59.2
+            ],
+            [
+              4.0,
+              -57.7
+            ],
+            [
+              9.3,
+              -57.8
+            ],
+            [
+              11.2,
+              -57.7
+            ],
+            [
+              14.6,
+              -57.3
+            ],
+            [
+              7.9,
+              -50.3
+            ],
+            [
+              18.1,
+              -49.7
+            ],
+            [
+              19.9,
+              -52.4
+            ],
+            [
+              21.8,
+              -54.8
+            ]
+          ]
         }
       },
       "tier": "plus",

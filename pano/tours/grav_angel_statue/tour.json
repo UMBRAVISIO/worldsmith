@@ -1,55 +1,278 @@
 {
-  "_doc": "Guided tour for The Stone Angel. Times t are TOUR seconds; narration starts at narrationAt (so narration time n = t - narrationAt). Keyframes: lon/lat/fov (vertical fov, WebGL convention; the camera adapter maps it onto Viewer2D zoom). stop:true = camera comes to rest on that keyframe (zero velocity); otherwise motion flows through it (Catmull-Rom). The first keyframe (t=0) is replaced at runtime by wherever the user is looking. Scene anchors measured on panos/grav_angel_statue.jpg (2048x1024): angel head lon -2.5 lat 38, wings lon -40..42 lat 20..43, candle rows lon -14..22 lat -50..-59, left great tree trunk lon -117, left fog bank lon -180..-115. Narration word times from forced alignment (vosk) of narration.mp3.",
-  "narration": "pano/tours/grav_angel_statue/narration.mp3",
-  "music": "pano/tours/grav_angel_statue/music.mp3",
-  "bell": "pano/tours/grav_angel_statue/bell.mp3",
-  "narrationAt": 2.0,
-  "duration": 80.5,
-  "levels": { "narration": 1.0, "music": 0.2, "bell": 0.75, "ambienceDuck": 0.16, "soundscapeDuck": 0.35 },
-  "musicFadeOut": [74.0, 80.0],
-  "bellAt": 50.4,
-  "bellLon": -2.5,
-  "keyframes": [
-    { "t": 0.0,  "lon": 2,    "lat": 0,   "fov": 78, "_": "replaced by the user's pose" },
-    { "t": 4.0,  "lon": -95,  "lat": -4,  "fov": 90, "_": "n2.0 'the old churchyard' - wide on the left fog bank" },
-    { "t": 8.0,  "lon": -62,  "lat": -8,  "fov": 86, "_": "n6.0 'where the fog keeps its promises'" },
-    { "t": 13.3, "lon": -28,  "lat": -12, "fov": 80, "_": "n11.3 'they get so few' - across the headstones" },
-    { "t": 16.3, "lon": -2.5, "lat": 8,   "fov": 72, "stop": true, "_": "n14.3 'The Stone Angel' - she is framed" },
-    { "t": 22.0, "lon": -2.5, "lat": 29,  "fov": 56, "_": "n20.0 'worn her face smooth' - tilt up to the face" },
-    { "t": 27.0, "lon": -2.5, "lat": 33,  "fov": 49, "stop": true, "_": "n25.0 'never once blinked' - hold on the face" },
-    { "t": 30.2, "lon": -6,   "lat": -40, "fov": 62, "_": "n28.2 'votive candles at her feet' - tilt down" },
-    { "t": 33.0, "lon": 3,    "lat": -43, "fov": 60, "_": "n31.0 'the number changes' - counting along the row" },
-    { "t": 35.6, "lon": 12,   "lat": -41, "fov": 61, "stop": true, "_": "n33.6 'it always changes' - rest on the candle field" },
-    { "t": 38.4, "lon": -40,  "lat": 6,   "fov": 80, "_": "n36.4 'the wind through the yew trees'" },
-    { "t": 41.4, "lon": -88,  "lat": 14,  "fov": 88, "_": "n39.4 'old ones' - into the great tree's canopy" },
-    { "t": 46.4, "lon": -118, "lat": -3,  "fov": 84, "stop": true, "_": "n44.4 'let you pass' - drift into the fog bank" },
-    { "t": 49.9, "lon": -2.5, "lat": 20,  "fov": 66, "stop": true, "_": "n47.9 'when the bell TOLLS' - whip back to her; the bell (bellAt 50.4 = n48.4) rings in the breath after 'tolls'" },
-    { "t": 52.2, "lon": -2.5, "lat": 32,  "fov": 52, "_": "n50.2 'turns her head'" },
-    { "t": 55.1, "lon": 1.5,  "lat": 33,  "fov": 48, "stop": true, "_": "n53.1 'only once' - a small uncanny sideways shift" },
-    { "t": 58.8, "lon": -1,   "lat": 24,  "fov": 92, "stop": true, "_": "n56.8 'her wings unfold' - wide reveal of the wingspan" },
-    { "t": 62.4, "lon": -1,   "lat": 24,  "fov": 92, "stop": true, "_": "n57.7-60.4 'stand very still' - absolute hold" },
-    { "t": 66.6, "lon": -2.5, "lat": 34,  "fov": 46, "stop": true, "_": "n64.6 'or the mourned' - creeping push to her face" },
-    { "t": 70.0, "lon": 0,    "lat": 4,   "fov": 76, "_": "n68.0 'welcome to the churchyard, wanderer'" },
-    { "t": 73.0, "lon": 3,    "lat": -38, "fov": 66, "stop": true, "_": "n71.0 'the candles know you're here now'" },
-    { "t": 75.0, "lon": 3,    "lat": -38, "fov": 66, "stop": true, "_": "hold" },
-    { "t": 80.5, "lon": 2,    "lat": 0,   "fov": 78, "stop": true, "_": "return to startLon" }
-  ],
-  "captions": [
-    { "t": 2.0,  "e": 7.9,  "text": "You've found it. The old churchyard\u2026 where the fog keeps its promises." },
-    { "t": 8.8,  "e": 13.6, "text": "Stay a while. The dead don't mind visitors \u2014 they get so few." },
-    { "t": 14.5, "e": 18.3, "text": "There she is. The Stone Angel." },
-    { "t": 18.4, "e": 24.7, "text": "Two hundred years of rain and frost have worn her face smooth, but she still watches." },
-    { "t": 25.2, "e": 27.6, "text": "She has never once blinked." },
-    { "t": 28.2, "e": 31.8, "text": "Count the votive candles at her feet\u2026 if you can." },
-    { "t": 32.3, "e": 35.8, "text": "The number changes. It always changes." },
-    { "t": 36.4, "e": 41.8, "text": "Listen. The wind through the yew trees carries names. Old ones." },
-    { "t": 42.6, "e": 47.0, "text": "Whisper one back, and the fog will part just enough to let you pass." },
-    { "t": 47.6, "e": 50.6, "text": "But mind the hour. When the bell tolls," },
-    { "t": 50.7, "e": 55.6, "text": "the angel turns her head \u2014 only a little, only once." },
-    { "t": 56.5, "e": 59.2, "text": "And if you ever hear her wings unfold\u2026" },
-    { "t": 59.7, "e": 62.4, "text": "\u2026stand very still." },
-    { "t": 62.6, "e": 67.4, "text": "She is only deciding whether you are the mourner\u2026 or the mourned." },
-    { "t": 68.6, "e": 71.0, "text": "Welcome to the churchyard, wanderer." },
-    { "t": 71.2, "e": 74.5, "text": "The candles know you're here now." }
-  ]
+ "_doc": "Guided tour for The Stone Angel. Times t are TOUR seconds; narration starts at narrationAt (so narration time n = t - narrationAt). Keyframes: lon/lat/fov (vertical fov, WebGL convention; the camera adapter maps it onto Viewer2D zoom). stop:true = camera comes to rest on that keyframe (zero velocity); otherwise motion flows through it (Catmull-Rom). The first keyframe (t=0) is replaced at runtime by wherever the user is looking. Scene anchors measured on panos/grav_angel_statue.jpg (2048x1024): angel head lon -2.5 lat 38, wings lon -40..42 lat 20..43, candle rows lon -14..22 lat -50..-59, left great tree trunk lon -117, left fog bank lon -180..-115. Narration word times from forced alignment (vosk) of narration.mp3.",
+ "narration": "pano/tours/grav_angel_statue/narration.mp3",
+ "music": "pano/tours/grav_angel_statue/music.mp3",
+ "bell": "pano/tours/grav_angel_statue/bell.mp3",
+ "narrationAt": 2.0,
+ "duration": 106.8,
+ "levels": {
+  "narration": 1.0,
+  "music": 0.2,
+  "bell": 0.75,
+  "ambienceDuck": 0.16,
+  "soundscapeDuck": 0.35
+ },
+ "musicFadeOut": [
+  107.2,
+  115.8
+ ],
+ "bellAt": 71.9,
+ "bellLon": -2.5,
+ "keyframes": [
+  {
+   "t": 0.0,
+   "lon": 2,
+   "lat": 0,
+   "fov": 78,
+   "_": "replaced by the user's pose"
+  },
+  {
+   "t": 5.79,
+   "lon": -95,
+   "lat": -4,
+   "fov": 90,
+   "_": "n2.9 'the old churchyard' - wide on the left fog bank"
+  },
+  {
+   "t": 11.58,
+   "lon": -62,
+   "lat": -8,
+   "fov": 86,
+   "_": "n8.7 'where the fog keeps its promises'"
+  },
+  {
+   "t": 19.26,
+   "lon": -28,
+   "lat": -12,
+   "fov": 80,
+   "_": "n16.4 'they get so few' - across the headstones"
+  },
+  {
+   "t": 23.6,
+   "lon": -2.5,
+   "lat": 8,
+   "fov": 72,
+   "stop": true,
+   "_": "n20.7 'The Stone Angel' - she is framed"
+  },
+  {
+   "t": 31.86,
+   "lon": -2.5,
+   "lat": 29,
+   "fov": 56,
+   "_": "n29.0 'worn her face smooth' - tilt up to the face"
+  },
+  {
+   "t": 39.1,
+   "lon": -2.5,
+   "lat": 33,
+   "fov": 49,
+   "stop": true,
+   "_": "n36.2 'never once blinked' - hold on the face"
+  },
+  {
+   "t": 43.73,
+   "lon": -6,
+   "lat": -40,
+   "fov": 62,
+   "_": "n40.8 'votive candles at her feet' - tilt down"
+  },
+  {
+   "t": 47.79,
+   "lon": 3,
+   "lat": -43,
+   "fov": 60,
+   "_": "n44.9 'the number changes' - counting along the row"
+  },
+  {
+   "t": 51.55,
+   "lon": 12,
+   "lat": -41,
+   "fov": 61,
+   "stop": true,
+   "_": "n48.7 'it always changes' - rest on the candle field"
+  },
+  {
+   "t": 55.61,
+   "lon": -40,
+   "lat": 6,
+   "fov": 80,
+   "_": "n52.7 'the wind through the yew trees'"
+  },
+  {
+   "t": 59.95,
+   "lon": -88,
+   "lat": 14,
+   "fov": 88,
+   "_": "n57.1 'old ones' - into the great tree's canopy"
+  },
+  {
+   "t": 67.19,
+   "lon": -118,
+   "lat": -3,
+   "fov": 84,
+   "stop": true,
+   "_": "n64.3 'let you pass' - drift into the fog bank"
+  },
+  {
+   "t": 72.26,
+   "lon": -2.5,
+   "lat": 20,
+   "fov": 66,
+   "stop": true,
+   "_": "n69.4 'when the bell TOLLS' - whip back to her; the bell (bellAt 50.4 = n70.1) rings in the breath after 'tolls'"
+  },
+  {
+   "t": 75.59,
+   "lon": -2.5,
+   "lat": 32,
+   "fov": 52,
+   "_": "n72.7 'turns her head'"
+  },
+  {
+   "t": 79.79,
+   "lon": 1.5,
+   "lat": 33,
+   "fov": 48,
+   "stop": true,
+   "_": "n76.9 'only once' - a small uncanny sideways shift"
+  },
+  {
+   "t": 85.15,
+   "lon": -1,
+   "lat": 24,
+   "fov": 92,
+   "stop": true,
+   "_": "n82.3 'her wings unfold' - wide reveal of the wingspan"
+  },
+  {
+   "t": 90.36,
+   "lon": -1,
+   "lat": 24,
+   "fov": 92,
+   "stop": true,
+   "_": "n83.6-60.4 'stand very still' - absolute hold"
+  },
+  {
+   "t": 96.44,
+   "lon": -2.5,
+   "lat": 34,
+   "fov": 46,
+   "stop": true,
+   "_": "n93.5 'or the mourned' - creeping push to her face"
+  },
+  {
+   "t": 101.37,
+   "lon": 0,
+   "lat": 4,
+   "fov": 76,
+   "_": "n98.5 'welcome to the churchyard, wanderer'"
+  },
+  {
+   "t": 105.71,
+   "lon": 3,
+   "lat": -38,
+   "fov": 66,
+   "stop": true,
+   "_": "n102.8 'the candles know you're here now'"
+  },
+  {
+   "t": 108.61,
+   "lon": 3,
+   "lat": -38,
+   "fov": 66,
+   "stop": true,
+   "_": "hold"
+  },
+  {
+   "t": 116.57,
+   "lon": 2,
+   "lat": 0,
+   "fov": 78,
+   "stop": true,
+   "_": "return to startLon"
+  }
+ ],
+ "captions": [
+  {
+   "t": 2.9,
+   "e": 11.44,
+   "text": "You've found it. The old churchyard\u2026 where the fog keeps its promises."
+  },
+  {
+   "t": 12.74,
+   "e": 19.69,
+   "text": "Stay a while. The dead don't mind visitors \u2014 they get so few."
+  },
+  {
+   "t": 21.0,
+   "e": 26.5,
+   "text": "There she is. The Stone Angel."
+  },
+  {
+   "t": 26.65,
+   "e": 35.77,
+   "text": "Two hundred years of rain and frost have worn her face smooth, but she still watches."
+  },
+  {
+   "t": 36.49,
+   "e": 39.97,
+   "text": "She has never once blinked."
+  },
+  {
+   "t": 40.84,
+   "e": 46.05,
+   "text": "Count the votive candles at her feet\u2026 if you can."
+  },
+  {
+   "t": 46.77,
+   "e": 51.84,
+   "text": "The number changes. It always changes."
+  },
+  {
+   "t": 52.71,
+   "e": 60.53,
+   "text": "Listen. The wind through the yew trees carries names. Old ones."
+  },
+  {
+   "t": 61.69,
+   "e": 68.06,
+   "text": "Whisper one back, and the fog will part just enough to let you pass."
+  },
+  {
+   "t": 68.93,
+   "e": 73.27,
+   "text": "But mind the hour. When the bell tolls,"
+  },
+  {
+   "t": 73.42,
+   "e": 80.52,
+   "text": "the angel turns her head \u2014 only a little, only once."
+  },
+  {
+   "t": 81.82,
+   "e": 85.73,
+   "text": "And if you ever hear her wings unfold\u2026"
+  },
+  {
+   "t": 86.45,
+   "e": 90.36,
+   "text": "\u2026stand very still."
+  },
+  {
+   "t": 90.65,
+   "e": 97.6,
+   "text": "She is only deciding whether you are the mourner\u2026 or the mourned."
+  },
+  {
+   "t": 99.34,
+   "e": 102.82,
+   "text": "Welcome to the churchyard, wanderer."
+  },
+  {
+   "t": 103.11,
+   "e": 107.88,
+   "text": "The candles know you're here now."
+  }
+ ]
 }
