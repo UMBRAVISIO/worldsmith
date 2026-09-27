@@ -1,0 +1,261 @@
+{
+ "_doc": "Guided tour for The Witch's Swamp (witch_swamp_drain, world 99f5b646). Engine/technique as approved worlds. t = TOUR sec; narration n = t - 2.0. Keyframes lon/lat/fov, stop:true = rest. Anchors (vision-mapped 2048x1024 pano): main wisp lon -46 lat -22 with reflection to -52 and rising streak -34/+5..10; left wisp -104/-3; right wisp +92/-6; hero buttress trunk +49; dark monolith trunk -35; edge trunk pair -170..-155; canopy gap -7/+68; white water-glint -3/-72; fog corridors -110..-50 and +95..+150. Narration times from vosk forced alignment (86.64s single take). Storyline: lantern-bearers \u2014 the wisps are lanterns carried by the drowned.",
+ "narration": "pano/tours/witch_swamp_drain/narration.mp3",
+ "music": "pano/tours/witch_swamp_drain/music.mp3",
+ "narrationAt": 2.0,
+ "duration": 90.6,
+ "levels": {
+  "narration": 1.0,
+  "music": 0.22,
+  "ambienceDuck": 0.16,
+  "soundscapeDuck": 0.35
+ },
+ "musicFadeOut": [
+  80.6,
+  87.1
+ ],
+ "keyframes": [
+  {
+   "t": 0.0,
+   "lon": 40,
+   "lat": -10,
+   "fov": 78,
+   "stop": true,
+   "_": "replaced by user's pose"
+  },
+  {
+   "t": 3.0,
+   "lon": -40,
+   "lat": -12,
+   "fov": 76,
+   "stop": true,
+   "_": "n1.1 'drowned forest' - open ON the main wisp framed by monolith trunk -35"
+  },
+  {
+   "t": 7.5,
+   "lon": -46,
+   "lat": -24,
+   "fov": 58,
+   "_": "n3.2 'water keeps everything' - push toward the wisp reflection"
+  },
+  {
+   "t": 10.5,
+   "lon": -46,
+   "lat": -34,
+   "fov": 48,
+   "stop": true,
+   "_": "n6.2 'step carefully' - very close on the wisp's reflection in the water"
+  },
+  {
+   "t": 15.6,
+   "lon": -46,
+   "lat": -16,
+   "fov": 66,
+   "_": "n13.6 'do you see them' - lift from reflection up to the wisp body"
+  },
+  {
+   "t": 19.0,
+   "lon": -60,
+   "lat": -8,
+   "fov": 78,
+   "_": "n17.3 'not fireflies' - widen, wisp now upper-right of frame"
+  },
+  {
+   "t": 23.8,
+   "lon": -80,
+   "lat": -6,
+   "fov": 82,
+   "_": "n21.5 'lantern-bearers' - drift through fog toward left corridor"
+  },
+  {
+   "t": 29.0,
+   "lon": -104,
+   "lat": -3,
+   "fov": 62,
+   "stop": true,
+   "_": "n27.5 'round and round the swamp' - find the left wisp"
+  },
+  {
+   "t": 33.5,
+   "lon": -104,
+   "lat": -3,
+   "fov": 56,
+   "stop": true,
+   "_": "n29.6 'here before the swamp' - hold, quiet dread"
+  },
+  {
+   "t": 36.5,
+   "lon": -140,
+   "lat": 4,
+   "fov": 84,
+   "_": "n34.2 'do not call out' - withdraw from the wisp, edge trunks loom"
+  },
+  {
+   "t": 40.5,
+   "lon": -170,
+   "lat": 0,
+   "fov": 88,
+   "_": "n41.0 'do not follow' - the dark edge-trunk pair, fog thickens"
+  },
+  {
+   "t": 46.0,
+   "lon": -110,
+   "lat": -6,
+   "fov": 80,
+   "_": "n44.7 'water between the trunks' - the deepest fog corridor"
+  },
+  {
+   "t": 51.0,
+   "lon": -60,
+   "lat": -18,
+   "fov": 62,
+   "stop": true,
+   "_": "n51.4 'those who wade in' - tilt down toward dark water between trunks"
+  },
+  {
+   "t": 57.5,
+   "lon": -46,
+   "lat": -22,
+   "fov": 52,
+   "stop": true,
+   "_": "n57.1 'listen. frogs gone quiet' - return to the main wisp"
+  },
+  {
+   "t": 63.5,
+   "lon": -104,
+   "lat": -6,
+   "fov": 70,
+   "_": "n61.5 'lantern-bearers are near' - quick dart toward left wisp"
+  },
+  {
+   "t": 67.5,
+   "lon": -75,
+   "lat": -14,
+   "fov": 62,
+   "stop": true,
+   "_": "n64.6 'a light drifts close' - between wisps, as if one approaches"
+  },
+  {
+   "t": 71.5,
+   "lon": -75,
+   "lat": -10,
+   "fov": 46,
+   "stop": true,
+   "_": "n67.2 'hold still' - TIGHT close-up, the world holds its breath"
+  },
+  {
+   "t": 75.5,
+   "lon": -60,
+   "lat": -2,
+   "fov": 72,
+   "_": "n73.3 'whether you will be here tomorrow' - slow rise"
+  },
+  {
+   "t": 78.8,
+   "lon": -30,
+   "lat": -8,
+   "fov": 78,
+   "_": "n76.4 'stand in the mist' - exhale, open up"
+  },
+  {
+   "t": 83.0,
+   "lon": -20,
+   "lat": -30,
+   "fov": 70,
+   "_": "n78.5 'breathe with the water' - tilt toward water surface"
+  },
+  {
+   "t": 86.6,
+   "lon": -10,
+   "lat": -55,
+   "fov": 62,
+   "stop": true,
+   "_": "n80.8 'when you leave' - tilt down the moon-glint on the water (embrace the glint)"
+  },
+  {
+   "t": 90.6,
+   "lon": 40,
+   "lat": -10,
+   "fov": 78,
+   "stop": true,
+   "_": "return toward start heading"
+  }
+ ],
+ "captions": [
+  {
+   "t": 2.5,
+   "e": 7.7,
+   "text": "You have found the drowned forest... where the water keeps everything it is given."
+  },
+  {
+   "t": 8.2,
+   "e": 14.8,
+   "text": "Step carefully. The water is quiet tonight. It is not always quiet."
+  },
+  {
+   "t": 15.6,
+   "e": 19.0,
+   "text": "Do you see them... the little lights?"
+  },
+  {
+   "t": 19.3,
+   "e": 22.5,
+   "text": "They are not fireflies, and they are not lost."
+  },
+  {
+   "t": 23.5,
+   "e": 30.5,
+   "text": "The lantern-bearers carry them... slowly... round and round the swamp."
+  },
+  {
+   "t": 31.6,
+   "e": 35.8,
+   "text": "They were here before the swamp. They will be here after."
+  },
+  {
+   "t": 36.2,
+   "e": 42.2,
+   "text": "Do not call out to them. They know your voice... better than you do."
+  },
+  {
+   "t": 43.0,
+   "e": 45.8,
+   "text": "And do not follow them past the old trees."
+  },
+  {
+   "t": 46.7,
+   "e": 53.0,
+   "text": "The water between the trunks is deeper than it looks... and colder than it should be."
+  },
+  {
+   "t": 53.4,
+   "e": 58.4,
+   "text": "Those who wade in... find the bottom much sooner than they expect."
+  },
+  {
+   "t": 59.1,
+   "e": 65.8,
+   "text": "Listen. The frogs have gone quiet. That means the lantern-bearers are near."
+  },
+  {
+   "t": 66.6,
+   "e": 72.0,
+   "text": "If a light drifts close... hold still. Let it look at you."
+  },
+  {
+   "t": 73.1,
+   "e": 77.8,
+   "text": "It is only deciding... whether you will be here tomorrow."
+  },
+  {
+   "t": 78.4,
+   "e": 82.5,
+   "text": "Stand in the mist... breathe with the water..."
+  },
+  {
+   "t": 82.8,
+   "e": 88.6,
+   "text": "And when you leave, walk softly. The swamp remembers being walked."
+  }
+ ]
+}

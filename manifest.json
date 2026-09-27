@@ -190,6 +190,55 @@
       "tier": "plus",
       "date": "2026-09-19",
       "featured": true
+    },
+    {
+      "id": "witch_swamp_drain",
+      "title": "The Witch's Swamp",
+      "description": "A drowned forest where black water mirrors mossy giants and green-blue lantern-lights drift between the trunks. The lantern-bearers were here before the swamp. They will be here after.",
+      "thumbnail": "assets/thumbs/witch_swamp_drain.webp",
+      "pano": "panos/witch_swamp_drain.jpg",
+      "startLon": 40,
+      "pano_credit": "World Labs Marble \u2014 draft, witch swamp batch",
+      "world_id": "99f5b646-a77a-45e8-8f44-70708611a82a",
+      "tier": "draft",
+      "date": "2026-09-27",
+      "featured": false,
+      "ambience": "pano/ambience/witch_swamp_drain_gothic.mp3",
+      "tour": "pano/tours/witch_swamp_drain/tour.json",
+      "fx": {
+        "scale": 0.5,
+        "fps": 15,
+        "vignette": 0.6,
+        "fog": [
+          {
+            "lat": 8,
+            "density": 0.7
+          }
+        ]
+      },
+      "soundscape": {
+        "gain": 0.9,
+        "layers": [],
+        "_note": "no bells anywhere; custom one-shot system: owl + bullfrog weighted, synth creak/gust variety",
+        "sounds": [
+          {
+            "name": "owl",
+            "file": "pano/sfx/owl-hoot.mp3",
+            "lon": -155,
+            "weight": 2
+          },
+          {
+            "name": "frog",
+            "file": "pano/sfx/frog-croak.mp3",
+            "lon": 80,
+            "weight": 3
+          }
+        ],
+        "events": {
+          "min": 18,
+          "max": 45
+        }
+      }
     }
   ]
 }

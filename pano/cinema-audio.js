@@ -131,6 +131,12 @@
           this.loadBuffer('crow1', this.cfg.crows[0]);
           this.loadBuffer('crow2', this.cfg.crows[1] || this.cfg.crows[0]);
         }
+        if (this.cfg.sounds) {
+          for (var si = 0; si < this.cfg.sounds.length; si++) {
+            var snd = this.cfg.sounds[si];
+            this.loadBuffer(snd.name, snd.file);
+          }
+        }
       }
       if (this.ctx.state === 'suspended') {
         var self = this;
@@ -387,7 +393,16 @@
     try {
       if (!kind) {
         var r = Math.random();
-        if (this.cfg.crows) { kind = r < 0.5 ? 'crow' : r < 0.62 ? 'creak' : 'gust'; }
+        if (this.cfg.sounds && this.cfg.sounds.length) {
+          // weighted pick among declared custom sounds
+          var total = 0, si2, weights = [];
+          for (si = 0; si < this.cfg.sounds.length; si++) { var wgt = this.cfg.sounds[si].weight || 1; weights.push(wgt); total += wgt; }
+          var roll = Math.random() * total, acc = 0, pick = null;
+          for (si = 0; si < this.cfg.sounds.length; si++) { acc += weights[si]; if (roll <= acc) { pick = this.cfg.sounds[si]; break; } }
+          kind = 'custom:' + (pick ? pick.name : this.cfg.sounds[0].name);
+          if (pick && pick.lon != null && lon == null) lon = pick.lon + rnd(-12, 12);
+        }
+        else if (this.cfg.crows) { kind = r < 0.5 ? 'crow' : r < 0.62 ? 'creak' : 'gust'; }
         else { kind = r < 0.3 && this.buffers.bell ? 'bell' : r < 0.55 ? 'gust' : r < 0.78 ? 'crow' : 'creak'; }
       }
       if (lon == null) {
@@ -399,7 +414,12 @@
       if (kind === 'bell') {
         if (!this.playOneShot('bell', lon, rnd(0.1, 0.18), { lowpass: rnd(500, 800), rate: rnd(0.82, 0.95) })) kind = 'gust';
       }
-      if (kind === 'crow' && this.buffers.crow1) {
+      if (kind && kind.indexOf && kind.indexOf('custom:') === 0) {
+        var cname = kind.slice(7);
+        if (this.buffers[cname]) {
+          if (!this.playOneShot(cname, lon, rnd(0.25, 0.4), { lowpass: rnd(3600, 6000), rate: rnd(0.92, 1.06) })) this._creak(lon);
+        }
+      } else if (kind === 'crow' && this.buffers.crow1) {
         // real crow sample (raucous group or single caw), panned, slightly filtered
         var crowBuf = Math.random() < 0.55 ? 'crow1' : 'crow2';
         if (!this.playOneShot(crowBuf, lon, rnd(0.22, 0.38), { lowpass: rnd(3200, 5200), rate: rnd(0.9, 1.08) })) this._crow(lon);
