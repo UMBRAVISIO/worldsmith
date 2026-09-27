@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WORLDSMITH — Audio Candidates (internal review)</title>
+<style>
+  :root { --bg:#0b0d10; --panel:#14181d; --text:#d8d4c8; --dim:#8a867c; --accent:#c9873a; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--text); font:16px/1.6 Georgia,'Times New Roman',serif; min-height:100vh; padding:3rem 1rem; }
+  main { max-width:680px; margin:0 auto; }
+  h1 { font-weight:normal; letter-spacing:0.14em; text-align:center; font-size:1.6rem; margin-bottom:0.4rem; }
+  h1 .flame { color:var(--accent); }
+  .note { text-align:center; color:var(--dim); font-size:0.85rem; margin-bottom:2.2rem; }
+  .cand { background:var(--panel); border:1px solid #232931; border-radius:10px; padding:1.3rem 1.4rem; margin-bottom:1.2rem; }
+  .cand h2 { font-size:1.05rem; font-weight:normal; letter-spacing:0.06em; color:var(--accent); margin-bottom:0.35rem; }
+  .cand p { color:var(--dim); font-size:0.85rem; margin-bottom:0.8rem; line-height:1.5; }
+  audio { width:100%; height:36px; }
+  .back { display:block; text-align:center; margin-top:2rem; color:var(--dim); font-size:0.85rem; }
+  .back a { color:var(--accent); text-decoration:none; }
+</style>
+</head>
+<body>
+<main>
+  <h1>WORLD<span class="flame">SMITH</span> — Voice Booth</h1>
+  <div class="note">internal review page &middot; Stone Angel tour candidates &middot; not linked from the public gallery</div>
+
+  <div class="cand">
+    <h2>Narration — Candidate A (ElevenLabs, gothic pacing)</h2>
+    <p>Same engine as v1 (which read as female/Southern) but with the v2 script: clipped phrasing, heavy pauses. 81s.</p>
+    <audio controls preload="none" src="pano/tours/candidates/candidate-A-elevenlabs.mp3"></audio>
+  </div>
+
+  <div class="cand">
+    <h2>Narration — Candidate B (Seed Audio, 2 parts)</h2>
+    <p>Different engine, different default voice. Two parts due to a 120s engine limit; played in sequence. ~103s total.</p>
+    <audio controls preload="none" src="pano/tours/candidates/candidate-B-seed-part1.mp3"></audio>
+    <audio controls preload="none" src="pano/tours/candidates/candidate-B-seed-part2.mp3" style="margin-top:6px"></audio>
+  </div>
+
+  <div class="cand">
+    <h2>Wind ambience — v2 (cold/dry, anti-ocean)</h2>
+    <p>Regenerated after v1 read as beach waves. Yew branches, dead leaves on stone, dry grass. This would loop under the whole tour. 90s.</p>
+    <audio controls preload="none" src="pano/tours/candidates/wind-v2-cold-dry.mp3"></audio>
+  </div>
+
+  <div class="cand">
+    <h2>Old narration — v1 (for comparison)</h2>
+    <p>The current live tour voice, for A/B against the candidates.</p>
+    <audio controls preload="none" src="pano/tours/grav_angel_statue/narration.mp3"></audio>
+  </div>
+
+  <div class="back"><a href="./">&#8592; back to the worlds</a></div>
+</main>
+</body>
+</html>
