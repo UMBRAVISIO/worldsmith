@@ -453,7 +453,16 @@ body.has-fx .vignette, body.has-fx .fog { display: none; } /* replaced by the fx
               if (on) setTimeout(function () { noteEl.classList.remove('on'); }, 5000);
               document.getElementById('hint').classList.add('faded');
             },
-            onFinish: function (reason) { window.__cinema.lastFinish = reason; }
+            onFinish: function (reason) {
+              window.__cinema.lastFinish = reason;
+              // Natural tour completion -> hand the camera to drift mode
+              // (user request 2026-09-27). User-cancelled tours keep the
+              // pre-tour drift state restored by _restore().
+              if (reason === 'end' && !view.autoRotate) {
+                view.setAutoRotate(true);
+                btnRotate.classList.add('active');
+              }
+            }
           });
           window.__cinema.tour = tour;
           btnTour.classList.remove('hidden-mode');
